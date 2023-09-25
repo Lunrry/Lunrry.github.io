@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>mysql自动备份脚本 | 明月出天山 苍茫云海间</title><meta name="author" content="桃栀"><meta name="copyright" content="桃栀"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="mysql自动备份脚本+定时执行一个用于mysql数据库自动备份的脚本，主要功能：  脚本存放位置即为备份文件存放位置 备份除自带数据库外其他用户数据库 提供备份日志 自定义删除某段时间前备份文件  #!&#x2F;bin&#x2F;bash   # 脚本存放位置即为备份文件存放位置 # 定义属性 MYSQL_HOST&#x3D;&quot;127.0.0.1&quot;   MYSQL_PORT&#x3D;&quot;3306&quot;   MYSQL_USER&#x3D;&quot;roo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql自动备份脚本">
+<meta property="og:url" content="https://lunrry.github.io/posts/7e4c9973/index.html">
+<meta property="og:site_name" content="明月出天山 苍茫云海间">
+<meta property="og:description" content="mysql自动备份脚本+定时执行一个用于mysql数据库自动备份的脚本，主要功能：  脚本存放位置即为备份文件存放位置 备份除自带数据库外其他用户数据库 提供备份日志 自定义删除某段时间前备份文件  #!&#x2F;bin&#x2F;bash   # 脚本存放位置即为备份文件存放位置 # 定义属性 MYSQL_HOST&#x3D;&quot;127.0.0.1&quot;   MYSQL_PORT&#x3D;&quot;3306&quot;   MYSQL_USER&#x3D;&quot;roo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://img.lunrry.top/202307042200090.jpeg">
+<meta property="article:published_time" content="2023-07-06T05:40:58.000Z">
+<meta property="article:modified_time" content="2023-09-25T08:18:44.566Z">
+<meta property="article:author" content="桃栀">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Mysql">
+<meta property="article:tag" content="Cron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://img.lunrry.top/202307042200090.jpeg"><link rel="shortcut icon" href="http://img.lunrry.top/202307042155073.png"><link rel="canonical" href="https://lunrry.github.io/posts/7e4c9973/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":true,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'mysql自动备份脚本',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-25 16:18:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/fontsetting.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="明月出天山 苍茫云海间" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/friend_404.gif" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://img.lunrry.top/202307042200090.jpeg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月出天山 苍茫云海间"><img class="site-icon" src="http://img.lunrry.top/202307042143576.png"/></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">mysql自动备份脚本</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-06T05:40:58.000Z" title="发表于 2023-07-06 13:40:58">2023-07-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-25T08:18:44.566Z" title="更新于 2023-09-25 16:18:44">2023-09-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Mysql/">Mysql</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">453</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="mysql自动备份脚本"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="mysql自动备份脚本-定时执行"><a href="#mysql自动备份脚本-定时执行" class="headerlink" title="mysql自动备份脚本+定时执行"></a>mysql自动备份脚本+定时执行</h2><p>一个用于mysql数据库自动备份的脚本，主要功能：</p>
+<ul>
+<li>脚本存放位置即为备份文件存放位置</li>
+<li>备份除自带数据库外其他用户数据库</li>
+<li>提供备份日志</li>
+<li>自定义删除某段时间前备份文件</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+ 
+<span class="token comment"># 脚本存放位置即为备份文件存放位置</span>
+<span class="token comment"># 定义属性</span>
+<span class="token assign-left variable">MYSQL_HOST</span><span class="token operator">=</span><span class="token string">"127.0.0.1"</span>
+ 
+<span class="token assign-left variable">MYSQL_PORT</span><span class="token operator">=</span><span class="token string">"3306"</span>
+ 
+<span class="token assign-left variable">MYSQL_USER</span><span class="token operator">=</span><span class="token string">"root"</span>
+ 
+<span class="token assign-left variable">MYSQL_PASSWORD</span><span class="token operator">=</span><span class="token string">"123456"</span>
+ 
+<span class="token assign-left variable">BACKUP</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">cd</span> `dirname $0`<span class="token punctuation">;</span><span class="token builtin class-name">pwd</span><span class="token variable">)</span></span>
+<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$BACKUP</span>"</span>
+ 
+<span class="token assign-left variable">DATETIME</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">date</span> +%Y_%m_%d_%H_%M_%S<span class="token variable">)</span></span>
+<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$DATETIME</span>"</span>
+
+<span class="token comment">#此处没有优化，应该自动获取mysql和mysqldump绝对路径，which命令corntab无法使用</span>
+<span class="token comment">#mysqldir=$(which mysql)</span>
+<span class="token comment">#echo "$mysqldir"</span>
+
+<span class="token comment">#mysqldumpdir=$(which mysqldump)</span>
+<span class="token comment">#echo "$mysqldumpdir"</span>
+ 
+<span class="token function">touch</span> <span class="token variable">$BACKUP</span>/backuplog.log
+<span class="token comment"># 打印日志</span>
+<span class="token keyword">function</span> <span class="token function-name function">log_correct</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token assign-left variable"><span class="token environment constant">USER</span></span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">whoami</span><span class="token variable">)</span></span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$&#123;DATETIME&#125;</span> <span class="token variable">$&#123;<span class="token environment constant">USER</span>&#125;</span> execute <span class="token variable">$0</span> [INFO] <span class="token variable">$@</span> "</span> <span class="token operator">>></span> <span class="token string">"<span class="token variable">$BACKUP</span>/backuplog.log"</span> 
+<span class="token punctuation">&#125;</span>
+ 
+log_correct <span class="token string">"开始执行 Mysql 备份任务"</span>
+ 
+<span class="token comment"># 自动获得所有的数据库</span>
+<span class="token assign-left variable">DATABASES</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span>/data/mysql/bin/mysql -h$<span class="token punctuation">&#123;</span>MYSQL_HOST<span class="token punctuation">&#125;</span> -P$<span class="token punctuation">&#123;</span>MYSQL_PORT<span class="token punctuation">&#125;</span> -u$<span class="token punctuation">&#123;</span>MYSQL_USER<span class="token punctuation">&#125;</span> -p$<span class="token punctuation">&#123;</span>MYSQL_PASSWORD<span class="token punctuation">&#125;</span> <span class="token parameter variable">-e</span> <span class="token string">"SHOW DATABASES;"</span><span class="token variable">`</span></span>
+<span class="token comment"># 创建备份目录</span>
+<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> <span class="token string">"<span class="token variable">$&#123;BACKUP&#125;</span>/<span class="token variable">$DATETIME</span>"</span>
+ 
+<span class="token keyword">for</span> <span class="token for-or-select variable">db</span> <span class="token keyword">in</span> <span class="token variable">$DATABASES</span><span class="token punctuation">;</span> <span class="token keyword">do</span>
+    <span class="token comment"># 排除表头和一些无需备份的数据库</span>
+    <span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$db</span>"</span> <span class="token operator">!=</span> <span class="token string">"Database"</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$db</span>"</span> <span class="token operator">!=</span> <span class="token string">"information_schema"</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$db</span>"</span> <span class="token operator">!=</span> <span class="token string">"performance_schema"</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$db</span>"</span> <span class="token operator">!=</span> <span class="token string">"mysql"</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span><span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$db</span>"</span> <span class="token operator">!=</span> <span class="token string">"sys"</span> <span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token keyword">then</span>
+        <span class="token comment"># 备份操作</span>
+        log_correct <span class="token string">"备份: 【<span class="token variable">$db</span>】"</span>
+        /data/mysql/bin/mysqldump --ignore-table<span class="token operator">=</span><span class="token variable">$db</span><span class="token punctuation">\</span>.TS_S_OperationLog -h<span class="token variable">$&#123;MYSQL_HOST&#125;</span> -P<span class="token variable">$&#123;MYSQL_PORT&#125;</span> -u<span class="token variable">$&#123;MYSQL_USER&#125;</span> -p<span class="token variable">$&#123;MYSQL_PASSWORD&#125;</span> <span class="token parameter variable">--databases</span> <span class="token variable">$db</span> <span class="token operator">></span> <span class="token variable">$&#123;BACKUP&#125;</span>/<span class="token variable">$DATETIME</span>/<span class="token variable">$db</span>.sql
+        log_correct <span class="token string">"数据库【<span class="token variable">$db</span>】已备份到：<span class="token variable">$&#123;BACKUP&#125;</span>/<span class="token variable">$DATETIME</span>/<span class="token variable">$db</span>.tar.gz 下"</span>
+	<span class="token builtin class-name">cd</span> <span class="token variable">$BACKUP</span>/<span class="token variable">$DATETIME</span>
+	<span class="token function">tar</span> <span class="token parameter variable">-czvf</span> <span class="token variable">$db</span>.tar.gz <span class="token variable">$db</span>.sql
+	<span class="token function">rm</span> <span class="token parameter variable">-rf</span> *.sql
+    <span class="token keyword">fi</span>
+<span class="token keyword">done</span>
+ 
+<span class="token comment"># 删除10天前的备份文件</span>
+<span class="token function">find</span> <span class="token variable">$BACKUP</span> <span class="token parameter variable">-type</span> d <span class="token parameter variable">-mtime</span> +10 <span class="token parameter variable">-exec</span> <span class="token function">rm</span> <span class="token parameter variable">-rf</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token punctuation">\</span><span class="token punctuation">;</span>
+ 
+log_correct <span class="token string">"完成 Mysql 备份任务"</span>
+
+log_correct <span class="token string">"已删除10天前备份数据"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="定时任务执行"><a href="#定时任务执行" class="headerlink" title="定时任务执行"></a>定时任务执行</h2><p>使用cron表达式定时执行，<code>crontab -e</code>进入编辑模式，下面表达式表示每天凌晨两点执行一次<code>backup.sh</code>脚本</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token number">0</span> <span class="token number">2</span> * * * /mnt/mysqlbackup/backup.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/Mysql/">Mysql</a><a class="post-meta__tags" href="/tags/Cron/">Cron</a></div><div class="post_share"><div class="social-share" data-image="http://img.lunrry.top/202307042200090.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/bc4c8e89/" title="Nginx添加新模块"><img class="cover" src="http://img.lunrry.top/202307042200090.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Nginx添加新模块</div></div></a></div><div class="next-post pull-right"><a href="/posts/8d90ced8/" title="修改Mysql-8.0.30 root密码"><img class="cover" src="http://img.lunrry.top/202307042159200.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">修改Mysql-8.0.30 root密码</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/83b39de6/" title="Linux防火墙操作"><img class="cover" src="http://img.lunrry.top/202307041420956.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-04</div><div class="title">Linux防火墙操作</div></div></a></div><div><a href="/posts/b30ceb9f/" title="Linux学习笔记"><img class="cover" src="http://img.lunrry.top/202307042200442.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-15</div><div class="title">Linux学习笔记</div></div></a></div><div><a href="/posts/bc4c8e89/" title="Nginx添加新模块"><img class="cover" src="http://img.lunrry.top/202307042200090.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-10</div><div class="title">Nginx添加新模块</div></div></a></div><div><a href="/posts/fd7d17f0/" title="使用Dockerfile基于Centos7镜像构建MySQL镜像"><img class="cover" src="http://img.lunrry.top/202307042159200.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">使用Dockerfile基于Centos7镜像构建MySQL镜像</div></div></a></div><div><a href="/posts/4bc91c96/" title="k8s部署自己构建的mysql镜像"><img class="cover" src="http://img.lunrry.top/202307041420956.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-02</div><div class="title">k8s部署自己构建的mysql镜像</div></div></a></div><div><a href="/posts/8d90ced8/" title="修改Mysql-8.0.30 root密码"><img class="cover" src="http://img.lunrry.top/202307042159200.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-06</div><div class="title">修改Mysql-8.0.30 root密码</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC81ODY2Ny8zNTEyOQ=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/friend_404.gif" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">桃栀</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD%E8%84%9A%E6%9C%AC-%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">mysql自动备份脚本+定时执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text">定时任务执行</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/dab9ddeb/" title="一键化脚本"><img src="http://img.lunrry.top/202307042200090.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一键化脚本"/></a><div class="content"><a class="title" href="/posts/dab9ddeb/" title="一键化脚本">一键化脚本</a><time datetime="2023-09-14T09:01:07.000Z" title="发表于 2023-09-14 17:01:07">2023-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/9acacb00/" title="Kubernetes"><img src="http://img.lunrry.top/202307042159200.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes"/></a><div class="content"><a class="title" href="/posts/9acacb00/" title="Kubernetes">Kubernetes</a><time datetime="2023-09-06T02:02:02.000Z" title="发表于 2023-09-06 10:02:02">2023-09-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/438ffc78/" title="Dockerfile构建kkFileView应用"><img src="http://img.lunrry.top/202307042159200.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Dockerfile构建kkFileView应用"/></a><div class="content"><a class="title" href="/posts/438ffc78/" title="Dockerfile构建kkFileView应用">Dockerfile构建kkFileView应用</a><time datetime="2023-08-22T05:54:04.000Z" title="发表于 2023-08-22 13:54:04">2023-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d032354a/" title="mysql8常用命令"><img src="http://img.lunrry.top/202307041420956.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql8常用命令"/></a><div class="content"><a class="title" href="/posts/d032354a/" title="mysql8常用命令">mysql8常用命令</a><time datetime="2023-08-17T08:04:07.000Z" title="发表于 2023-08-17 16:04:07">2023-08-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/f1fcef01/" title="nginx编译报错解决办法"><img src="http://img.lunrry.top/202307041420956.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nginx编译报错解决办法"/></a><div class="content"><a class="title" href="/posts/f1fcef01/" title="nginx编译报错解决办法">nginx编译报错解决办法</a><time datetime="2023-08-16T07:03:09.000Z" title="发表于 2023-08-16 15:03:09">2023-08-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By 桃栀</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !false) {
+  if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

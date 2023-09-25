@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>1+7Pro机型ColorOS系统的Root方法</title>
+    <url>/posts/f0319b30/</url>
+    <content><![CDATA[<h2 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h2><p>之前刷的MIUI12.5用了一段时间后新鲜感过去，因此想要体验ColorOS。想要根据本文进行操作需要具备一定的玩机知识，以及一定的动手能力。能够理解Bootloader锁、9008、Rec、TWRP、Magisk等。</p>
+<h2 id="重要"><a href="#重要" class="headerlink" title="重要"></a>重要</h2><p>&#x3D;&#x3D;做好备份！！！做好备份！！！做好备份！！！&#x3D;&#x3D;<br>&#x3D;&#x3D;备份到电脑！！！备份到电脑！！！备份到电脑！！！&#x3D;&#x3D;</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
+<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/guacamole_21_H.02_220211_repack.zip">9008线刷包氢11</a></li>
+<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/%E9%AB%98%E9%80%9A9008%E9%A9%B1%E5%8A%A8%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89.exe">高通9008驱动</a></li>
+<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/7e3a37fb542046a4b5c43e6d0ee33366_4.zip">ColorOS12.1全量包</a></li>
+<li><a href="https://optool.daxiaamu.com/wiki_pctool">一加全能盒子 | 工具箱</a></li>
+<li><a href="https://twrp.me/oneplus/oneplus7pro.html">TWRP for OnePlus 7 Pro (guacamole)</a></li>
+</ol>
+<ul>
+<li>官方系统用V1（For Stock and other FBEv1 ROMs）第三方系统用V2（For custom ROMs using FBEv2）此文中下载V1：<a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/twrp-installer-3.7.0_12-0-guacamole.zip">twrp-installer-3.7.0_12-0-guacamole.zip</a></li>
+</ul>
+<ol start="6">
+<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/platform-tools_r33.0.3-windows_2.zip">adb工具包</a></li>
+<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/Magisk-v25.2.zip">Magisk25.2</a></li>
+</ol>
+<h2 id="9008恢复官方系统"><a href="#9008恢复官方系统" class="headerlink" title="9008恢复官方系统"></a>9008恢复官方系统</h2><ol>
+<li>先安装上面高通9008驱动</li>
+<li>手机开发者选项中打开USB调试</li>
+<li>手机关机，电脑打开线刷包中<code>MsmDownloadTool V4.0.exe</code></li>
+<li>手机关机状态同时按住<code>音量加</code>和<code>音量减</code>后插入数据线<br><img src="http://img.lunrry.top/202307041058220.png" alt="image-1671000103388"><br>当连接状态显示<code>已连接</code>后松开按键并点击<code>start</code>开始刷入<br><img src="http://img.lunrry.top/202307041059365.png" alt="image-1671009224153"></li>
+<li>期间不要操作手机，不要断电，等待刷入完成会自动开机，开机时间3-5分钟</li>
+</ol>
+<h2 id="解锁BL-Bootloader"><a href="#解锁BL-Bootloader" class="headerlink" title="解锁BL(Bootloader)"></a>解锁BL(Bootloader)</h2><p>&#x3D;&#x3D;因为<code>ColorOS12</code>不允许解锁Bootloader，因此选择在<code>氢os 11</code>的时候解锁Bootloader再升级&#x3D;&#x3D;</p>
+<ol>
+<li>打开开发者选项（连续点击系统版本号）</li>
+<li>打开<code>OEM解锁``USB调试</code>，解下来有两种方式解锁</li>
+</ol>
+<ul>
+<li>安装adb工具包：<a href="https://www.xitongzhijia.net/xtjc/20211115/232746.html">教程</a> </li>
+<li>数据线连接手机后命令行输入<code>adb reboot bootloader</code>启动到bootloader模式后，再次输入<code>fastboot oem unlock</code>进入解锁界面，手机音量键选择到<code>UNLOCK THE BOOTLOADER</code>按下电源键确认后自动重启</li>
+<li>使用一加全能工具箱，进去后选择1安装驱动 2一键解锁Bootloader(Root前必须执行)</li>
+</ul>
+<ol start="3">
+<li>重启成功之后就已经解锁Bootloader了</li>
+<li>手机系统更新界面升级，提示设备已解锁，下载全量包升级，跟着操作更新重启，升级到<code>ColorOS12.1全量包</code></li>
+</ol>
+<h2 id="刷入Magisk"><a href="#刷入Magisk" class="headerlink" title="刷入Magisk"></a>刷入Magisk</h2><ol>
+<li>打开一加全能工具箱，按下<code>P</code>键进入P菜单</li>
+<li>将<code>ColorOS12.1全量包</code>拖入<br><img src="http://img.lunrry.top/202307041059992.png" alt="image-1671004271556"></li>
+<li>按下回车耐心等待</li>
+<li>手机同意安装<code>Magisk APP</code></li>
+<li>等待自动重启</li>
+<li>打开Magisk，会提示你需要修复环境</li>
+<li>选择<code>直接安装</code>-&gt;<code>开始</code><br> <img src="http://img.lunrry.top/202307041059117.png" alt="image-1671004474584"></li>
+<li>再次重启后，Root成功</li>
+</ol>
+<h2 id="刷入TWRP（第三方Recovery）"><a href="#刷入TWRP（第三方Recovery）" class="headerlink" title="刷入TWRP（第三方Recovery）"></a>刷入TWRP（第三方Recovery）</h2><p>如果觉得叙述不够清晰，此处有别人的<a href="https://www.bilibili.com/video/BV1CG4y1G7qS/?spm_id_from=333.337.search-card.all.click&vd_source=d646adcfb70cfa0accd92dfa3d0fa3eb">视频教程</a></p>
+<ol>
+<li>将<code>Magisk25.2.zip</code>和<code>twrp-installer-3.7.0_12-0-guacamole.zip</code>拷贝到手机</li>
+<li><code>Magisk</code>-右下角<code>模块</code>-<code>从本地安装</code>-选择<code>twrp-installer-3.7.0_12-0-guacamole.zip</code></li>
+<li>右下角出现<code>重启</code>按钮后，点击左上角返回</li>
+<li>点击<code>主页</code>-Magisk的<code>安装</code>-<code>直接安装（推荐）</code>-<code>开始</code>等待右下角出现<code>重启</code>按钮后重启即可，至此永久Rec刷入完毕</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>刷机</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Apache和Tomcat和Nginx的比较</title>
     <url>/posts/81c36908/</url>
     <content><![CDATA[<h1 id="Apache和Tomcat和Nginx的比较"><a href="#Apache和Tomcat和Nginx的比较" class="headerlink" title="Apache和Tomcat和Nginx的比较"></a>Apache和Tomcat和Nginx的比较</h1><h3 id="Apache-与-Tomcat-比较"><a href="#Apache-与-Tomcat-比较" class="headerlink" title="Apache 与 Tomcat 比较"></a>Apache 与 Tomcat 比较</h3><p><strong>相同点：</strong></p>
@@ -116,79 +181,6 @@ cat &#x2F;etc&#x2F;ld.so.conf
       <tags>
         <tag>Nginx</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>1+7Pro机型ColorOS系统的Root方法</title>
-    <url>/posts/f0319b30/</url>
-    <content><![CDATA[<h2 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h2><p>之前刷的MIUI12.5用了一段时间后新鲜感过去，因此想要体验ColorOS。想要根据本文进行操作需要具备一定的玩机知识，以及一定的动手能力。能够理解Bootloader锁、9008、Rec、TWRP、Magisk等。</p>
-<h2 id="重要"><a href="#重要" class="headerlink" title="重要"></a>重要</h2><p>&#x3D;&#x3D;做好备份！！！做好备份！！！做好备份！！！&#x3D;&#x3D;<br>&#x3D;&#x3D;备份到电脑！！！备份到电脑！！！备份到电脑！！！&#x3D;&#x3D;</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
-<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/guacamole_21_H.02_220211_repack.zip">9008线刷包氢11</a></li>
-<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/%E9%AB%98%E9%80%9A9008%E9%A9%B1%E5%8A%A8%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89.exe">高通9008驱动</a></li>
-<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/7e3a37fb542046a4b5c43e6d0ee33366_4.zip">ColorOS12.1全量包</a></li>
-<li><a href="https://optool.daxiaamu.com/wiki_pctool">一加全能盒子 | 工具箱</a></li>
-<li><a href="https://twrp.me/oneplus/oneplus7pro.html">TWRP for OnePlus 7 Pro (guacamole)</a></li>
-</ol>
-<ul>
-<li>官方系统用V1（For Stock and other FBEv1 ROMs）第三方系统用V2（For custom ROMs using FBEv2）此文中下载V1：<a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/twrp-installer-3.7.0_12-0-guacamole.zip">twrp-installer-3.7.0_12-0-guacamole.zip</a></li>
-</ul>
-<ol start="6">
-<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/platform-tools_r33.0.3-windows_2.zip">adb工具包</a></li>
-<li><a href="https://share.lunrry.top/Alicloud/%E5%AE%89%E5%8D%93%E8%BD%AF%E4%BB%B6/%E5%88%B7%E6%9C%BA/Magisk-v25.2.zip">Magisk25.2</a></li>
-</ol>
-<h2 id="9008恢复官方系统"><a href="#9008恢复官方系统" class="headerlink" title="9008恢复官方系统"></a>9008恢复官方系统</h2><ol>
-<li>先安装上面高通9008驱动</li>
-<li>手机开发者选项中打开USB调试</li>
-<li>手机关机，电脑打开线刷包中<code>MsmDownloadTool V4.0.exe</code></li>
-<li>手机关机状态同时按住<code>音量加</code>和<code>音量减</code>后插入数据线<br><img src="http://img.lunrry.top/202307041058220.png" alt="image-1671000103388"><br>当连接状态显示<code>已连接</code>后松开按键并点击<code>start</code>开始刷入<br><img src="http://img.lunrry.top/202307041059365.png" alt="image-1671009224153"></li>
-<li>期间不要操作手机，不要断电，等待刷入完成会自动开机，开机时间3-5分钟</li>
-</ol>
-<h2 id="解锁BL-Bootloader"><a href="#解锁BL-Bootloader" class="headerlink" title="解锁BL(Bootloader)"></a>解锁BL(Bootloader)</h2><p>&#x3D;&#x3D;因为<code>ColorOS12</code>不允许解锁Bootloader，因此选择在<code>氢os 11</code>的时候解锁Bootloader再升级&#x3D;&#x3D;</p>
-<ol>
-<li>打开开发者选项（连续点击系统版本号）</li>
-<li>打开<code>OEM解锁``USB调试</code>，解下来有两种方式解锁</li>
-</ol>
-<ul>
-<li>安装adb工具包：<a href="https://www.xitongzhijia.net/xtjc/20211115/232746.html">教程</a> </li>
-<li>数据线连接手机后命令行输入<code>adb reboot bootloader</code>启动到bootloader模式后，再次输入<code>fastboot oem unlock</code>进入解锁界面，手机音量键选择到<code>UNLOCK THE BOOTLOADER</code>按下电源键确认后自动重启</li>
-<li>使用一加全能工具箱，进去后选择1安装驱动 2一键解锁Bootloader(Root前必须执行)</li>
-</ul>
-<ol start="3">
-<li>重启成功之后就已经解锁Bootloader了</li>
-<li>手机系统更新界面升级，提示设备已解锁，下载全量包升级，跟着操作更新重启，升级到<code>ColorOS12.1全量包</code></li>
-</ol>
-<h2 id="刷入Magisk"><a href="#刷入Magisk" class="headerlink" title="刷入Magisk"></a>刷入Magisk</h2><ol>
-<li>打开一加全能工具箱，按下<code>P</code>键进入P菜单</li>
-<li>将<code>ColorOS12.1全量包</code>拖入<br><img src="http://img.lunrry.top/202307041059992.png" alt="image-1671004271556"></li>
-<li>按下回车耐心等待</li>
-<li>手机同意安装<code>Magisk APP</code></li>
-<li>等待自动重启</li>
-<li>打开Magisk，会提示你需要修复环境</li>
-<li>选择<code>直接安装</code>-&gt;<code>开始</code><br> <img src="http://img.lunrry.top/202307041059117.png" alt="image-1671004474584"></li>
-<li>再次重启后，Root成功</li>
-</ol>
-<h2 id="刷入TWRP（第三方Recovery）"><a href="#刷入TWRP（第三方Recovery）" class="headerlink" title="刷入TWRP（第三方Recovery）"></a>刷入TWRP（第三方Recovery）</h2><p>如果觉得叙述不够清晰，此处有别人的<a href="https://www.bilibili.com/video/BV1CG4y1G7qS/?spm_id_from=333.337.search-card.all.click&vd_source=d646adcfb70cfa0accd92dfa3d0fa3eb">视频教程</a></p>
-<ol>
-<li>将<code>Magisk25.2.zip</code>和<code>twrp-installer-3.7.0_12-0-guacamole.zip</code>拷贝到手机</li>
-<li><code>Magisk</code>-右下角<code>模块</code>-<code>从本地安装</code>-选择<code>twrp-installer-3.7.0_12-0-guacamole.zip</code></li>
-<li>右下角出现<code>重启</code>按钮后，点击左上角返回</li>
-<li>点击<code>主页</code>-Magisk的<code>安装</code>-<code>直接安装（推荐）</code>-<code>开始</code>等待右下角出现<code>重启</code>按钮后重启即可，至此永久Rec刷入完毕</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Android</category>
-      </categories>
-      <tags>
-        <tag>刷机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Dockerfile构建kkFileView应用</title>
-    <url>/posts/438ffc78/</url>
-    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
   </entry>
   <entry>
     <title>Docker学习笔记</title>
@@ -396,254 +388,6 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 <span class="tok
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux防火墙操作</title>
-    <url>/posts/83b39de6/</url>
-    <content><![CDATA[<h1 id="Linux防火墙操作"><a href="#Linux防火墙操作" class="headerlink" title="Linux防火墙操作"></a>Linux防火墙操作</h1><p><a href="https://bajie.dev/posts/20221024-iptables/">Iptables的基本用法</a></p>
-<h2 id="防火墙命令"><a href="#防火墙命令" class="headerlink" title="防火墙命令"></a>防火墙命令</h2><table>
-<thead>
-<tr>
-<th>作用</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>查看防火墙状态</td>
-<td>systemctl status firewalld.service<br/>systemctl status firewalld</td>
-</tr>
-<tr>
-<td>开启防火墙</td>
-<td>systemctl start firewalld.service<br/>systemctl start firewalld</td>
-</tr>
-<tr>
-<td>关闭防火墙</td>
-<td>systemctl stop firewalld.service<br/>systemctl stop firewalld</td>
-</tr>
-<tr>
-<td>防火墙开机自启</td>
-<td>systemctl enable firewalld.service</td>
-</tr>
-<tr>
-<td>禁止防火墙开机自启</td>
-<td>systemctl disable firewalld.service</td>
-</tr>
-<tr>
-<td>重启防火墙</td>
-<td>firewall-cmd –reload<br/>systemctl restart firewalld</td>
-</tr>
-</tbody></table>
-<h2 id="端口操作命令"><a href="#端口操作命令" class="headerlink" title="端口操作命令"></a>端口操作命令</h2><table>
-<thead>
-<tr>
-<th>作用</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>查询已开放端口</td>
-<td>firewall-cmd –list-port</td>
-</tr>
-<tr>
-<td>查询某个端口是否开放</td>
-<td>firewall-cmd –query-port&#x3D;80&#x2F;tcp</td>
-</tr>
-<tr>
-<td>开启端口</td>
-<td>firewall-cmd –zone&#x3D;public –add-port&#x3D;80&#x2F;tcp –permanent<br/>注：可以是一个端口范围，如1000-2000&#x2F;tcp</td>
-</tr>
-<tr>
-<td>移除端口</td>
-<td>firewall-cmd –zone&#x3D;public –remove-port&#x3D;80&#x2F;tcp –permanent</td>
-</tr>
-<tr>
-<td></td>
-<td>–zone #作用域<br/>–add-port&#x3D;80&#x2F;tcp #添加端口，格式为：端口&#x2F;通讯协议<br/>–remove-port&#x3D;80&#x2F;tcp #移除端口，格式为：端口&#x2F;通讯协议<br/>–permanent #永久生效，没有此参数重启后失效</td>
-</tr>
-</tbody></table>
-<h2 id="区域操作命令"><a href="#区域操作命令" class="headerlink" title="区域操作命令"></a>区域操作命令</h2><ul>
-<li><p>显示当前系统中的默认区域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-
-</li>
-<li><p>设置网络连接或接口的默认区域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span class="token operator">=</span>work<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>显示默认区域的所有规则</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --list-all</span>
-public <span class="token punctuation">(</span>active<span class="token punctuation">)</span>
-  target: default
-  icmp-block-inversion: no
-  interfaces: ens33
-  sources: 
-  services: dhcpv6-client <span class="token function">ssh</span>
-  ports: 
-  protocols: 
-  masquerade: no
-  forward-ports: 
-  source-ports: 
-  icmp-blocks: 
-  rich rules:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>显示已激活的域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --get-active-zones</span>
-<span class="token function">docker</span>
-  interfaces: br-a340711930cb docker0
-public
-  interfaces: ens33<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-<h2 id="服务操作命令"><a href="#服务操作命令" class="headerlink" title="服务操作命令"></a>服务操作命令</h2><ul>
-<li><p>显示指定区域区域内允许访问的所有服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --zone=work --list-services </span>
-dhcpv6-client <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
-<li><p>为指定区域设置允许访问的某项服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --add-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>删除指定区域已设置的允许访问的某项服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-</ul>
-<h2 id="rich规则配置"><a href="#rich规则配置" class="headerlink" title="rich规则配置"></a>rich规则配置</h2><h3 id="防火墙使用区域管理"><a href="#防火墙使用区域管理" class="headerlink" title="防火墙使用区域管理"></a>防火墙使用区域管理</h3><pre class="line-numbers language-none"><code class="language-none">阻塞区域（block）：任何传入的网络数据包都将被阻止。
-工作区域（work）：相信网络上的其他计算机，不会损害你的计算机。
-家庭区域（home）：相信网络上的其他计算机，不会损害你的计算机。
-公共区域（public）：不相信网络上的任何计算机，只有选择接受传入的网络连接。
-隔离区域（DMZ）：隔离区域也称为非军事区域，内外网络之间增加的一层网络，起到缓冲作用。对于隔离区域，只有选择接受传入的网络连接。
-信任区域（trusted）：所有的网络连接都可以接受。
-丢弃区域（drop）：任何传入的网络连接都被拒绝。
-内部区域（internal）：信任网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
-外部区域（external）：不相信网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
- 
-注：Firewalld的默认区域是public。
-firewalld默认提供了九个zone配置文件：block.xml、dmz.xml、drop.xml、external.xml、 home.xml、internal.xml、public.xml、trusted.xml、work.xml，他们都保存在“&#x2F;usr&#x2F;lib &#x2F;firewalld&#x2F;zones&#x2F;”目录下。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="查看当前区域"><a href="#查看当前区域" class="headerlink" title="查看当前区域"></a>查看当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="设置当前区域"><a href="#设置当前区域" class="headerlink" title="设置当前区域"></a>设置当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="创建区域"><a href="#创建区域" class="headerlink" title="创建区域"></a>创建区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --new-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="内部端口转发"><a href="#内部端口转发" class="headerlink" title="内部端口转发"></a>内部端口转发</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd -- add-rich-rule<span class="token operator">=</span><span class="token string">'rule family=ipv4 forward-port port=2222 protocol=tcp to-port=22 '</span> <span class="token parameter variable">--permanent</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><p>限制仅允许指定IP访问3306端口</p>
-<ol>
-<li>删除原有的3306端口访问规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-port<span class="token operator">=</span><span class="token number">3306</span>/tcp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="2">
-<li>添加规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="3">
-<li>生效规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="4">
-<li>查看规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="5">
-<li>删除规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="IP段开放"><a href="#IP段开放" class="headerlink" title="IP段开放"></a>IP段开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 新建永久规则，开放192.168.1.1单个源IP的访问</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1
-<span class="token comment"># 新建永久规则，开放192.168.1.0/24整个源IP段的访问</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.0/24
-<span class="token comment"># 移除上述规则</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --remove-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="系统服务的开放"><a href="#系统服务的开放" class="headerlink" title="系统服务的开放"></a>系统服务的开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 开放http服务</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-service<span class="token operator">=</span>http
-<span class="token comment"># 移除上述规则</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="自定义复杂规则（注意是否与已有规则冲突）"><a href="#自定义复杂规则（注意是否与已有规则冲突）" class="headerlink" title="自定义复杂规则（注意是否与已有规则冲突）"></a>自定义复杂规则（注意是否与已有规则冲突）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 允许指定IP访问本机8080端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" accept'</span>
-<span class="token comment"># 允许指定IP段访问本机8080-8090端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="8080-8090" accept'</span>
-<span class="token comment"># 禁止指定IP访问本机8080端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" reject'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="重载防火墙"><a href="#重载防火墙" class="headerlink" title="重载防火墙"></a>重载防火墙</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>防火墙</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nginx添加新模块</title>
-    <url>/posts/bc4c8e89/</url>
-    <content><![CDATA[<h2 id="Nginx添加新模块-以fastdfs-nginx-module模块为例"><a href="#Nginx添加新模块-以fastdfs-nginx-module模块为例" class="headerlink" title="Nginx添加新模块(以fastdfs-nginx-module模块为例)"></a>Nginx添加新模块(以fastdfs-nginx-module模块为例)</h2><ol>
-<li>进入nginx源码目录（如已删除，从官网重新下载）</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/app/nginx/nginx-1.22.0
-<span class="token function">ls</span>
-auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  Makefile  <span class="token function">man</span>  objs  README  src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<ol start="2">
-<li>下载fastdfs-nginx-module模块，并解压</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/happyfish100/fastdfs-nginx-module/archive/refs/tags/V1.22.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="3">
-<li>查看nginx版本以及编译参数</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nginx <span class="token parameter variable">-V</span>
-
-<span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<ol start="4">
-<li>执行命令重新编译nginx，在最后加上fastdfs-nginx-module模块</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="5">
-<li><p>执行<code>make </code>，注意：千万别<code>make install</code>，否则就覆盖安装了）， make完之后在软件目录下就多了个nginx，这个就是新版本的程序了。</p>
-</li>
-<li><p>进入启动文件夹</p>
-</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># which nginx</span>
-/usr/sbin/nginx
-<span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># cd /usr/sbin/</span>
-<span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># ls</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ol start="7">
-<li>备份原来启动文件并替换</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> ./nginx ./nginx.bak
-<span class="token function">mv</span> /home/app/nginx/nginx-1.22.0/objs/nginx ./<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<ol start="8">
-<li>启动nginx</li>
-<li><code>nginx -V</code>查看添加的模块</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
-nginx version: nginx/1.22.0
-built by gcc <span class="token number">4.8</span>.5 <span class="token number">20150623</span> <span class="token punctuation">(</span>Red Hat <span class="token number">4.8</span>.5-44<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
-built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
-TLS SNI support enabled
-configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Nginx</tag>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1177,6 +921,198 @@ kubectl get pod<span aria-hidden="true" class="line-numbers-rows"><span></span><
       </categories>
       <tags>
         <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Dockerfile构建kkFileView应用</title>
+    <url>/posts/438ffc78/</url>
+    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux防火墙操作</title>
+    <url>/posts/83b39de6/</url>
+    <content><![CDATA[<h1 id="Linux防火墙操作"><a href="#Linux防火墙操作" class="headerlink" title="Linux防火墙操作"></a>Linux防火墙操作</h1><p><a href="https://bajie.dev/posts/20221024-iptables/">Iptables的基本用法</a></p>
+<h2 id="防火墙命令"><a href="#防火墙命令" class="headerlink" title="防火墙命令"></a>防火墙命令</h2><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看防火墙状态</td>
+<td>systemctl status firewalld.service<br/>systemctl status firewalld</td>
+</tr>
+<tr>
+<td>开启防火墙</td>
+<td>systemctl start firewalld.service<br/>systemctl start firewalld</td>
+</tr>
+<tr>
+<td>关闭防火墙</td>
+<td>systemctl stop firewalld.service<br/>systemctl stop firewalld</td>
+</tr>
+<tr>
+<td>防火墙开机自启</td>
+<td>systemctl enable firewalld.service</td>
+</tr>
+<tr>
+<td>禁止防火墙开机自启</td>
+<td>systemctl disable firewalld.service</td>
+</tr>
+<tr>
+<td>重启防火墙</td>
+<td>firewall-cmd –reload<br/>systemctl restart firewalld</td>
+</tr>
+</tbody></table>
+<h2 id="端口操作命令"><a href="#端口操作命令" class="headerlink" title="端口操作命令"></a>端口操作命令</h2><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询已开放端口</td>
+<td>firewall-cmd –list-port</td>
+</tr>
+<tr>
+<td>查询某个端口是否开放</td>
+<td>firewall-cmd –query-port&#x3D;80&#x2F;tcp</td>
+</tr>
+<tr>
+<td>开启端口</td>
+<td>firewall-cmd –zone&#x3D;public –add-port&#x3D;80&#x2F;tcp –permanent<br/>注：可以是一个端口范围，如1000-2000&#x2F;tcp</td>
+</tr>
+<tr>
+<td>移除端口</td>
+<td>firewall-cmd –zone&#x3D;public –remove-port&#x3D;80&#x2F;tcp –permanent</td>
+</tr>
+<tr>
+<td></td>
+<td>–zone #作用域<br/>–add-port&#x3D;80&#x2F;tcp #添加端口，格式为：端口&#x2F;通讯协议<br/>–remove-port&#x3D;80&#x2F;tcp #移除端口，格式为：端口&#x2F;通讯协议<br/>–permanent #永久生效，没有此参数重启后失效</td>
+</tr>
+</tbody></table>
+<h2 id="区域操作命令"><a href="#区域操作命令" class="headerlink" title="区域操作命令"></a>区域操作命令</h2><ul>
+<li><p>显示当前系统中的默认区域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+</li>
+<li><p>设置网络连接或接口的默认区域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span class="token operator">=</span>work<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>显示默认区域的所有规则</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --list-all</span>
+public <span class="token punctuation">(</span>active<span class="token punctuation">)</span>
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens33
+  sources: 
+  services: dhcpv6-client <span class="token function">ssh</span>
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>显示已激活的域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --get-active-zones</span>
+<span class="token function">docker</span>
+  interfaces: br-a340711930cb docker0
+public
+  interfaces: ens33<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="服务操作命令"><a href="#服务操作命令" class="headerlink" title="服务操作命令"></a>服务操作命令</h2><ul>
+<li><p>显示指定区域区域内允许访问的所有服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --zone=work --list-services </span>
+dhcpv6-client <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>为指定区域设置允许访问的某项服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --add-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>删除指定区域已设置的允许访问的某项服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<h2 id="rich规则配置"><a href="#rich规则配置" class="headerlink" title="rich规则配置"></a>rich规则配置</h2><h3 id="防火墙使用区域管理"><a href="#防火墙使用区域管理" class="headerlink" title="防火墙使用区域管理"></a>防火墙使用区域管理</h3><pre class="line-numbers language-none"><code class="language-none">阻塞区域（block）：任何传入的网络数据包都将被阻止。
+工作区域（work）：相信网络上的其他计算机，不会损害你的计算机。
+家庭区域（home）：相信网络上的其他计算机，不会损害你的计算机。
+公共区域（public）：不相信网络上的任何计算机，只有选择接受传入的网络连接。
+隔离区域（DMZ）：隔离区域也称为非军事区域，内外网络之间增加的一层网络，起到缓冲作用。对于隔离区域，只有选择接受传入的网络连接。
+信任区域（trusted）：所有的网络连接都可以接受。
+丢弃区域（drop）：任何传入的网络连接都被拒绝。
+内部区域（internal）：信任网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
+外部区域（external）：不相信网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
+ 
+注：Firewalld的默认区域是public。
+firewalld默认提供了九个zone配置文件：block.xml、dmz.xml、drop.xml、external.xml、 home.xml、internal.xml、public.xml、trusted.xml、work.xml，他们都保存在“&#x2F;usr&#x2F;lib &#x2F;firewalld&#x2F;zones&#x2F;”目录下。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="查看当前区域"><a href="#查看当前区域" class="headerlink" title="查看当前区域"></a>查看当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="设置当前区域"><a href="#设置当前区域" class="headerlink" title="设置当前区域"></a>设置当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="创建区域"><a href="#创建区域" class="headerlink" title="创建区域"></a>创建区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --new-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="内部端口转发"><a href="#内部端口转发" class="headerlink" title="内部端口转发"></a>内部端口转发</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd -- add-rich-rule<span class="token operator">=</span><span class="token string">'rule family=ipv4 forward-port port=2222 protocol=tcp to-port=22 '</span> <span class="token parameter variable">--permanent</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><p>限制仅允许指定IP访问3306端口</p>
+<ol>
+<li>删除原有的3306端口访问规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-port<span class="token operator">=</span><span class="token number">3306</span>/tcp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="2">
+<li>添加规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="3">
+<li>生效规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="4">
+<li>查看规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="5">
+<li>删除规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="IP段开放"><a href="#IP段开放" class="headerlink" title="IP段开放"></a>IP段开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 新建永久规则，开放192.168.1.1单个源IP的访问</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1
+<span class="token comment"># 新建永久规则，开放192.168.1.0/24整个源IP段的访问</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.0/24
+<span class="token comment"># 移除上述规则</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --remove-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="系统服务的开放"><a href="#系统服务的开放" class="headerlink" title="系统服务的开放"></a>系统服务的开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 开放http服务</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-service<span class="token operator">=</span>http
+<span class="token comment"># 移除上述规则</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="自定义复杂规则（注意是否与已有规则冲突）"><a href="#自定义复杂规则（注意是否与已有规则冲突）" class="headerlink" title="自定义复杂规则（注意是否与已有规则冲突）"></a>自定义复杂规则（注意是否与已有规则冲突）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 允许指定IP访问本机8080端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" accept'</span>
+<span class="token comment"># 允许指定IP段访问本机8080-8090端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="8080-8090" accept'</span>
+<span class="token comment"># 禁止指定IP访问本机8080端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" reject'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="重载防火墙"><a href="#重载防火墙" class="headerlink" title="重载防火墙"></a>重载防火墙</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>防火墙</tag>
       </tags>
   </entry>
   <entry>
@@ -1733,6 +1669,70 @@ echo &quot;The sum is: $s&quot;<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
+    <title>Nginx添加新模块</title>
+    <url>/posts/bc4c8e89/</url>
+    <content><![CDATA[<h2 id="Nginx添加新模块-以fastdfs-nginx-module模块为例"><a href="#Nginx添加新模块-以fastdfs-nginx-module模块为例" class="headerlink" title="Nginx添加新模块(以fastdfs-nginx-module模块为例)"></a>Nginx添加新模块(以fastdfs-nginx-module模块为例)</h2><ol>
+<li>进入nginx源码目录（如已删除，从官网重新下载）</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/app/nginx/nginx-1.22.0
+<span class="token function">ls</span>
+auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  Makefile  <span class="token function">man</span>  objs  README  src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>下载fastdfs-nginx-module模块，并解压</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/happyfish100/fastdfs-nginx-module/archive/refs/tags/V1.22.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="3">
+<li>查看nginx版本以及编译参数</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nginx <span class="token parameter variable">-V</span>
+
+<span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="4">
+<li>执行命令重新编译nginx，在最后加上fastdfs-nginx-module模块</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="5">
+<li><p>执行<code>make </code>，注意：千万别<code>make install</code>，否则就覆盖安装了）， make完之后在软件目录下就多了个nginx，这个就是新版本的程序了。</p>
+</li>
+<li><p>进入启动文件夹</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># which nginx</span>
+/usr/sbin/nginx
+<span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># cd /usr/sbin/</span>
+<span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># ls</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="7">
+<li>备份原来启动文件并替换</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> ./nginx ./nginx.bak
+<span class="token function">mv</span> /home/app/nginx/nginx-1.22.0/objs/nginx ./<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="8">
+<li>启动nginx</li>
+<li><code>nginx -V</code>查看添加的模块</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
+nginx version: nginx/1.22.0
+built by gcc <span class="token number">4.8</span>.5 <span class="token number">20150623</span> <span class="token punctuation">(</span>Red Hat <span class="token number">4.8</span>.5-44<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
+built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
+TLS SNI support enabled
+configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nginx的配置</title>
     <url>/posts/7d4620f0/</url>
     <content><![CDATA[<h1 id="Nginx-conf配置文件"><a href="#Nginx-conf配置文件" class="headerlink" title="Nginx.conf配置文件"></a>Nginx.conf配置文件</h1><p>nginx使用最多的三个核心功能是反向代理，负载均衡和静态服务器。nginx的配置信息主要集中在nginx.conf这个配置文件中，将nginx.conf配置文件中的所有配置信息可以划分成以下六部分：</p>
@@ -2027,6 +2027,141 @@ upstream backend_server <span class="token punctuation">&#123;</span>
       <tags>
         <tag>Nginx</tag>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ansible批量初始化服务器</title>
+    <url>/posts/ab7a4847/</url>
+    <content><![CDATA[<h2 id="ansible批量初始化服务器"><a href="#ansible批量初始化服务器" class="headerlink" title="ansible批量初始化服务器"></a>ansible批量初始化服务器</h2><p>主机组配置<code>/etc/ansible/hosts</code>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>new<span class="token punctuation">]</span>
+<span class="token number">192.168</span>.0.<span class="token punctuation">[</span><span class="token number">3</span>:6<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="ansible配置SSH密钥认证"><a href="#ansible配置SSH密钥认证" class="headerlink" title="ansible配置SSH密钥认证"></a>ansible配置SSH密钥认证</h3><ul>
+<li><p>在control_node节点上生成密钥对</p>
+<p><code>ssh-keygen -t rsa -f ~/.ssh/id_rsa -N &#39;&#39;</code></p>
+</li>
+<li><p>编写<code>sshkey.yaml</code></p>
+</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">connection</span><span class="token punctuation">:</span> local
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
+      <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+        ssh-keyscan &#123;&#123;inventory_hostname&#125;&#125; >>~/.ssh/known_hosts
+        sshpass -p'123456' ssh-copy-id root@&#123;&#123;inventory_hostname&#125;&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>执行playbook</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ansible-playbook sshkey.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="批量初始化"><a href="#批量初始化" class="headerlink" title="批量初始化"></a>批量初始化</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Configure ssh Connection
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">connection</span><span class="token punctuation">:</span> local
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
+      <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+        ssh-keyscan &#123;&#123;inventory_hostname&#125;&#125; >>~/.ssh/known_hosts
+        sshpass -p'123456' ssh-copy-id root@&#123;&#123;inventory_hostname&#125;&#125;</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Set Hostname
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">hostnames</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.3
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> new1
+      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.4
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> new2
+      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.5
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> new3
+      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.6
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> new4  
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> set hostname
+      <span class="token key atrule">hostname</span><span class="token punctuation">:</span> 
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
+      <span class="token key atrule">when</span><span class="token punctuation">:</span> item.host == inventory_hostname
+      <span class="token key atrule">loop</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;hostnames&#125;&#125;"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Add DNS For Each
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> add DNS
+      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span> 
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"/etc/hosts"</span>
+        <span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125; &#123;&#123;hostvars[item].ansible_hostname&#125;&#125;"</span>
+      <span class="token key atrule">when</span><span class="token punctuation">:</span> item <span class="token tag">!=</span> inventory_hostname
+      <span class="token key atrule">loop</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; play_hosts &#125;&#125;"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Config Yum Repo And Install Software
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> backup origin yum repos
+      <span class="token key atrule">shell</span><span class="token punctuation">:</span> 
+        <span class="token key atrule">cmd</span><span class="token punctuation">:</span> <span class="token string">"mkdir bak; mv *.repo bak"</span>
+        <span class="token key atrule">chdir</span><span class="token punctuation">:</span> /etc/yum.repos.d
+        <span class="token key atrule">creates</span><span class="token punctuation">:</span> /etc/yum.repos.d/bak
+
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> add os repo and epel repo
+      <span class="token key atrule">yum_repository</span><span class="token punctuation">:</span> 
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
+        <span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125; repo"</span>
+        <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.baseurl&#125;&#125;"</span>
+        <span class="token key atrule">file</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
+        <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token number">1</span>
+        <span class="token key atrule">gpgcheck</span><span class="token punctuation">:</span> <span class="token number">0</span>
+        <span class="token key atrule">reposdir</span><span class="token punctuation">:</span> /etc/yum.repos.d
+      <span class="token key atrule">loop</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> os
+          <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch"</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> epel
+          <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"https://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch"</span>
+
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install pkgs
+      <span class="token key atrule">yum</span><span class="token punctuation">:</span> 
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> lrzsz<span class="token punctuation">,</span>vim<span class="token punctuation">,</span>dos2unix<span class="token punctuation">,</span>wget<span class="token punctuation">,</span>curl<span class="token punctuation">,</span>git<span class="token punctuation">,</span>tar<span class="token punctuation">,</span>unzip<span class="token punctuation">,</span>ntpdate
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> present
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Sync Time
+  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install and sync time
+      <span class="token key atrule">block</span><span class="token punctuation">:</span> 
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install ntpdate
+          <span class="token key atrule">yum</span><span class="token punctuation">:</span> 
+            <span class="token key atrule">name</span><span class="token punctuation">:</span> ntpdate
+            <span class="token key atrule">state</span><span class="token punctuation">:</span> present
+
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ntpdate to sync time
+          <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+            ntpdate ntp1.aliyun.com
+            hwclock -w</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>配置SSH密钥认证</li>
+<li>配置主机名</li>
+<li>互相添加DNS解析记录</li>
+<li>配置镜像源</li>
+<li>安装常用软件</li>
+<li>时间同步</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ansible</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ansible</tag>
       </tags>
   </entry>
   <entry>
@@ -2434,141 +2569,6 @@ AnsibleDir: &#x2F;etc&#x2F;ansible<span aria-hidden="true" class="line-numbers-r
         <category>ansible</category>
       </categories>
       <tags>
-        <tag>ansible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ansible批量初始化服务器</title>
-    <url>/posts/ab7a4847/</url>
-    <content><![CDATA[<h2 id="ansible批量初始化服务器"><a href="#ansible批量初始化服务器" class="headerlink" title="ansible批量初始化服务器"></a>ansible批量初始化服务器</h2><p>主机组配置<code>/etc/ansible/hosts</code>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>new<span class="token punctuation">]</span>
-<span class="token number">192.168</span>.0.<span class="token punctuation">[</span><span class="token number">3</span>:6<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="ansible配置SSH密钥认证"><a href="#ansible配置SSH密钥认证" class="headerlink" title="ansible配置SSH密钥认证"></a>ansible配置SSH密钥认证</h3><ul>
-<li><p>在control_node节点上生成密钥对</p>
-<p><code>ssh-keygen -t rsa -f ~/.ssh/id_rsa -N &#39;&#39;</code></p>
-</li>
-<li><p>编写<code>sshkey.yaml</code></p>
-</li>
-</ul>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token key atrule">connection</span><span class="token punctuation">:</span> local
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
-      <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-        ssh-keyscan &#123;&#123;inventory_hostname&#125;&#125; >>~/.ssh/known_hosts
-        sshpass -p'123456' ssh-copy-id root@&#123;&#123;inventory_hostname&#125;&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>执行playbook</li>
-</ul>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ansible-playbook sshkey.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="批量初始化"><a href="#批量初始化" class="headerlink" title="批量初始化"></a>批量初始化</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Configure ssh Connection
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token key atrule">connection</span><span class="token punctuation">:</span> local
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> configure ssh connection
-      <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-        ssh-keyscan &#123;&#123;inventory_hostname&#125;&#125; >>~/.ssh/known_hosts
-        sshpass -p'123456' ssh-copy-id root@&#123;&#123;inventory_hostname&#125;&#125;</span>
-
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Set Hostname
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
-    <span class="token key atrule">hostnames</span><span class="token punctuation">:</span>
-      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.3
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> new1
-      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.4
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> new2
-      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.5
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> new3
-      <span class="token punctuation">-</span> <span class="token key atrule">host</span><span class="token punctuation">:</span> 192.168.0.6
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> new4  
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> set hostname
-      <span class="token key atrule">hostname</span><span class="token punctuation">:</span> 
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
-      <span class="token key atrule">when</span><span class="token punctuation">:</span> item.host == inventory_hostname
-      <span class="token key atrule">loop</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;hostnames&#125;&#125;"</span>
-
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Add DNS For Each
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> add DNS
-      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span> 
-        <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"/etc/hosts"</span>
-        <span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125; &#123;&#123;hostvars[item].ansible_hostname&#125;&#125;"</span>
-      <span class="token key atrule">when</span><span class="token punctuation">:</span> item <span class="token tag">!=</span> inventory_hostname
-      <span class="token key atrule">loop</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; play_hosts &#125;&#125;"</span>
-
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Config Yum Repo And Install Software
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> backup origin yum repos
-      <span class="token key atrule">shell</span><span class="token punctuation">:</span> 
-        <span class="token key atrule">cmd</span><span class="token punctuation">:</span> <span class="token string">"mkdir bak; mv *.repo bak"</span>
-        <span class="token key atrule">chdir</span><span class="token punctuation">:</span> /etc/yum.repos.d
-        <span class="token key atrule">creates</span><span class="token punctuation">:</span> /etc/yum.repos.d/bak
-
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> add os repo and epel repo
-      <span class="token key atrule">yum_repository</span><span class="token punctuation">:</span> 
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
-        <span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125; repo"</span>
-        <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.baseurl&#125;&#125;"</span>
-        <span class="token key atrule">file</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item.name&#125;&#125;"</span>
-        <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token number">1</span>
-        <span class="token key atrule">gpgcheck</span><span class="token punctuation">:</span> <span class="token number">0</span>
-        <span class="token key atrule">reposdir</span><span class="token punctuation">:</span> /etc/yum.repos.d
-      <span class="token key atrule">loop</span><span class="token punctuation">:</span>
-        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> os
-          <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch"</span>
-        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> epel
-          <span class="token key atrule">baseurl</span><span class="token punctuation">:</span> <span class="token string">"https://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch"</span>
-
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install pkgs
-      <span class="token key atrule">yum</span><span class="token punctuation">:</span> 
-        <span class="token key atrule">name</span><span class="token punctuation">:</span> lrzsz<span class="token punctuation">,</span>vim<span class="token punctuation">,</span>dos2unix<span class="token punctuation">,</span>wget<span class="token punctuation">,</span>curl<span class="token punctuation">,</span>git<span class="token punctuation">,</span>tar<span class="token punctuation">,</span>unzip<span class="token punctuation">,</span>ntpdate
-        <span class="token key atrule">state</span><span class="token punctuation">:</span> present
-
-<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Sync Time
-  <span class="token key atrule">hosts</span><span class="token punctuation">:</span> new
-  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
-  <span class="token key atrule">tasks</span><span class="token punctuation">:</span> 
-    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install and sync time
-      <span class="token key atrule">block</span><span class="token punctuation">:</span> 
-        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> install ntpdate
-          <span class="token key atrule">yum</span><span class="token punctuation">:</span> 
-            <span class="token key atrule">name</span><span class="token punctuation">:</span> ntpdate
-            <span class="token key atrule">state</span><span class="token punctuation">:</span> present
-
-        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> ntpdate to sync time
-          <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
-            ntpdate ntp1.aliyun.com
-            hwclock -w</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>配置SSH密钥认证</li>
-<li>配置主机名</li>
-<li>互相添加DNS解析记录</li>
-<li>配置镜像源</li>
-<li>安装常用软件</li>
-<li>时间同步</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ansible</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
         <tag>ansible</tag>
       </tags>
   </entry>
@@ -3535,95 +3535,6 @@ scl <span class="token builtin class-name">enable</span> devtoolset-7 <span clas
       </tags>
   </entry>
   <entry>
-    <title>一键化脚本</title>
-    <url>/posts/dab9ddeb/</url>
-    <content><![CDATA[<h2 id="脚本使用"><a href="#脚本使用" class="headerlink" title="脚本使用"></a>脚本使用</h2><p><code>wget http://www.lunrry.top:99/p/COnZHs5NgS/install_all.sh &amp;&amp; chmod +x install_all.sh &amp;&amp; ./install_all.sh</code></p>
-<hr>
-<p>请选择要执行的命令：</p>
-<ol>
-<li>centos初始化配置</li>
-<li>安装fdfs-6.06（一般位于DB服务器）</li>
-<li>安装nginx-1.22.0（web服务器）</li>
-<li>安装nginx+fdfs，两者位于同一台机器</li>
-<li>安装nano-7.2编辑器</li>
-<li>安装docker</li>
-<li>安装k8s（自动安装适配版本docker）</li>
-<li>安装zabbix-5.0-LTS</li>
-</ol>
-<hr>
-<h2 id="Readme"><a href="#Readme" class="headerlink" title="Readme"></a>Readme</h2><ol>
-<li>init.sh</li>
-</ol>
-<blockquote>
-<p>实现yum换源、安装基本工具、同步时间服务器、设定最大进程数、设置打开文件描述符的数量等linux基础优化</p>
-</blockquote>
-<ol start="2">
-<li>install_fdfs.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
-<p>– 后面接参数：</p>
-<ul>
-<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs</li>
-</ul>
-<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器,DB服务器上的安装</p>
-</blockquote>
-<ol start="3">
-<li>nginx_install.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/nginx</code></p>
-<p>– 后面接参数：</p>
-<ul>
-<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;nginx</li>
-</ul>
-<p>此脚本会安装nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器，WEB服务器上的安装</p>
-</blockquote>
-<ol start="4">
-<li>install_ngx_fdfs.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/2O6ZjaqOvL/install_ngx_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
-<p>– 后面接参数： </p>
-<ul>
-<li><p>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs </p>
-</li>
-<li><p>nginx文件位置在&#x2F;home&#x2F;data&#x2F;nginx</p>
-</li>
-</ul>
-<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器在同一台机器的情况</p>
-</blockquote>
-<ol start="5">
-<li>install.sh</li>
-</ol>
-<blockquote>
-<p> <code>curl http://www.lunrry.top:99/p/cbwpRZoCF8/install.sh | bash</code></p>
-<ul>
-<li>执行代码安装<code>nano-7.2</code>，并设置<code>代码语法高亮以及tab占位4空格</code></li>
-<li>理论linux系统通用</li>
-</ul>
-</blockquote>
-<ol start="6">
-<li>docker_install.sh</li>
-</ol>
-<blockquote>
-<p>自定义安装docker并换源</p>
-</blockquote>
-<ol start="7">
-<li>k8s_install.sh</li>
-</ol>
-<blockquote>
-<p>快速部署指定版本k8s集群,极大程度降低工作量，能在10分钟内完成任意版本的k8s集群部署</p>
-</blockquote>
-<ol start="8">
-<li>zabbix_install.sh</li>
-</ol>
-<blockquote>
-<p>快速安装zabbix-5.0-LTS,同时会安装MariaDB数据库</p>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>solr9.x版本集群部署方案</title>
     <url>/posts/64e2185c/</url>
     <content><![CDATA[<h2 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h2><p><code>CentOS Linux release 7.9.2009(Core) Linux 3.10.0-1160.90.1.e7 x86_64</code></p>
@@ -3807,6 +3718,95 @@ zkServer.sh status<span aria-hidden="true" class="line-numbers-rows"><span></spa
 <span class="token comment"># 启动Solr集群</span>
 ./solr start <span class="token parameter variable">-e</span> cloud <span class="token parameter variable">-z</span> node1:2181,node2:2181,node3:2181/solr <span class="token parameter variable">-force</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+]]></content>
+  </entry>
+  <entry>
+    <title>一键化脚本</title>
+    <url>/posts/dab9ddeb/</url>
+    <content><![CDATA[<h2 id="脚本使用"><a href="#脚本使用" class="headerlink" title="脚本使用"></a>脚本使用</h2><p><code>wget http://www.lunrry.top:99/p/COnZHs5NgS/install_all.sh &amp;&amp; chmod +x install_all.sh &amp;&amp; ./install_all.sh</code></p>
+<hr>
+<p>请选择要执行的命令：</p>
+<ol>
+<li>centos初始化配置</li>
+<li>安装fdfs-6.06（一般位于DB服务器）</li>
+<li>安装nginx-1.22.0（web服务器）</li>
+<li>安装nginx+fdfs，两者位于同一台机器</li>
+<li>安装nano-7.2编辑器</li>
+<li>安装docker</li>
+<li>安装k8s（自动安装适配版本docker）</li>
+<li>安装zabbix-5.0-LTS</li>
+</ol>
+<hr>
+<h2 id="Readme"><a href="#Readme" class="headerlink" title="Readme"></a>Readme</h2><ol>
+<li>init.sh</li>
+</ol>
+<blockquote>
+<p>实现yum换源、安装基本工具、同步时间服务器、设定最大进程数、设置打开文件描述符的数量等linux基础优化</p>
+</blockquote>
+<ol start="2">
+<li>install_fdfs.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
+<p>– 后面接参数：</p>
+<ul>
+<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs</li>
+</ul>
+<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器,DB服务器上的安装</p>
+</blockquote>
+<ol start="3">
+<li>nginx_install.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/nginx</code></p>
+<p>– 后面接参数：</p>
+<ul>
+<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;nginx</li>
+</ul>
+<p>此脚本会安装nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器，WEB服务器上的安装</p>
+</blockquote>
+<ol start="4">
+<li>install_ngx_fdfs.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/2O6ZjaqOvL/install_ngx_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
+<p>– 后面接参数： </p>
+<ul>
+<li><p>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs </p>
+</li>
+<li><p>nginx文件位置在&#x2F;home&#x2F;data&#x2F;nginx</p>
+</li>
+</ul>
+<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器在同一台机器的情况</p>
+</blockquote>
+<ol start="5">
+<li>install.sh</li>
+</ol>
+<blockquote>
+<p> <code>curl http://www.lunrry.top:99/p/cbwpRZoCF8/install.sh | bash</code></p>
+<ul>
+<li>执行代码安装<code>nano-7.2</code>，并设置<code>代码语法高亮以及tab占位4空格</code></li>
+<li>理论linux系统通用</li>
+</ul>
+</blockquote>
+<ol start="6">
+<li>docker_install.sh</li>
+</ol>
+<blockquote>
+<p>自定义安装docker并换源</p>
+</blockquote>
+<ol start="7">
+<li>k8s_install.sh</li>
+</ol>
+<blockquote>
+<p>快速部署指定版本k8s集群,极大程度降低工作量，能在10分钟内完成任意版本的k8s集群部署</p>
+</blockquote>
+<ol start="8">
+<li>zabbix_install.sh</li>
+</ol>
+<blockquote>
+<p>快速安装zabbix-5.0-LTS,同时会安装MariaDB数据库</p>
+</blockquote>
 ]]></content>
   </entry>
   <entry>
