@@ -183,14 +183,6 @@ cat &#x2F;etc&#x2F;ld.so.conf
       </tags>
   </entry>
   <entry>
-    <title>Dockerfile构建kkFileView应用</title>
-    <url>/posts/438ffc78/</url>
-    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-  </entry>
-  <entry>
     <title>ChatGPT403</title>
     <url>/posts/580fd437/</url>
     <content><![CDATA[<h2 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h2><p>打开<a href="https://chat.openai.com/%E6%8A%A5%E9%94%99%EF%BC%9A">https://chat.openai.com/报错：</a><br>ChatGPT can make mistakes. Consider checking important information.</p>
@@ -198,6 +190,14 @@ cat &#x2F;etc&#x2F;ld.so.conf
 <h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p>进入clash等，配置文件-右键-规则，添加</p>
 <p><img src="http://img.lunrry.top/img/202311170915023.png" alt="剪贴_2023-11-16_15-23-07"></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Dockerfile构建kkFileView应用</title>
+    <url>/posts/438ffc78/</url>
+    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
   </entry>
   <entry>
     <title>Docker学习笔记</title>
@@ -941,6 +941,190 @@ kubectl get pod<span aria-hidden="true" class="line-numbers-rows"><span></span><
       </tags>
   </entry>
   <entry>
+    <title>Linux防火墙操作</title>
+    <url>/posts/83b39de6/</url>
+    <content><![CDATA[<h1 id="Linux防火墙操作"><a href="#Linux防火墙操作" class="headerlink" title="Linux防火墙操作"></a>Linux防火墙操作</h1><p><a href="https://bajie.dev/posts/20221024-iptables/">Iptables的基本用法</a></p>
+<h2 id="防火墙命令"><a href="#防火墙命令" class="headerlink" title="防火墙命令"></a>防火墙命令</h2><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看防火墙状态</td>
+<td>systemctl status firewalld.service<br/>systemctl status firewalld</td>
+</tr>
+<tr>
+<td>开启防火墙</td>
+<td>systemctl start firewalld.service<br/>systemctl start firewalld</td>
+</tr>
+<tr>
+<td>关闭防火墙</td>
+<td>systemctl stop firewalld.service<br/>systemctl stop firewalld</td>
+</tr>
+<tr>
+<td>防火墙开机自启</td>
+<td>systemctl enable firewalld.service</td>
+</tr>
+<tr>
+<td>禁止防火墙开机自启</td>
+<td>systemctl disable firewalld.service</td>
+</tr>
+<tr>
+<td>重启防火墙</td>
+<td>firewall-cmd –reload<br/>systemctl restart firewalld</td>
+</tr>
+</tbody></table>
+<h2 id="端口操作命令"><a href="#端口操作命令" class="headerlink" title="端口操作命令"></a>端口操作命令</h2><table>
+<thead>
+<tr>
+<th>作用</th>
+<th>命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询已开放端口</td>
+<td>firewall-cmd –list-port</td>
+</tr>
+<tr>
+<td>查询某个端口是否开放</td>
+<td>firewall-cmd –query-port&#x3D;80&#x2F;tcp</td>
+</tr>
+<tr>
+<td>开启端口</td>
+<td>firewall-cmd –zone&#x3D;public –add-port&#x3D;80&#x2F;tcp –permanent<br/>注：可以是一个端口范围，如1000-2000&#x2F;tcp</td>
+</tr>
+<tr>
+<td>移除端口</td>
+<td>firewall-cmd –zone&#x3D;public –remove-port&#x3D;80&#x2F;tcp –permanent</td>
+</tr>
+<tr>
+<td></td>
+<td>–zone #作用域<br/>–add-port&#x3D;80&#x2F;tcp #添加端口，格式为：端口&#x2F;通讯协议<br/>–remove-port&#x3D;80&#x2F;tcp #移除端口，格式为：端口&#x2F;通讯协议<br/>–permanent #永久生效，没有此参数重启后失效</td>
+</tr>
+</tbody></table>
+<h2 id="区域操作命令"><a href="#区域操作命令" class="headerlink" title="区域操作命令"></a>区域操作命令</h2><ul>
+<li><p>显示当前系统中的默认区域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+</li>
+<li><p>设置网络连接或接口的默认区域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span class="token operator">=</span>work<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>显示默认区域的所有规则</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --list-all</span>
+public <span class="token punctuation">(</span>active<span class="token punctuation">)</span>
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens33
+  sources: 
+  services: dhcpv6-client <span class="token function">ssh</span>
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>显示已激活的域</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --get-active-zones</span>
+<span class="token function">docker</span>
+  interfaces: br-a340711930cb docker0
+public
+  interfaces: ens33<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h2 id="服务操作命令"><a href="#服务操作命令" class="headerlink" title="服务操作命令"></a>服务操作命令</h2><ul>
+<li><p>显示指定区域区域内允许访问的所有服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --zone=work --list-services </span>
+dhcpv6-client <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li><p>为指定区域设置允许访问的某项服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --add-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>删除指定区域已设置的允许访问的某项服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ul>
+<h2 id="rich规则配置"><a href="#rich规则配置" class="headerlink" title="rich规则配置"></a>rich规则配置</h2><h3 id="防火墙使用区域管理"><a href="#防火墙使用区域管理" class="headerlink" title="防火墙使用区域管理"></a>防火墙使用区域管理</h3><pre class="line-numbers language-none"><code class="language-none">阻塞区域（block）：任何传入的网络数据包都将被阻止。
+工作区域（work）：相信网络上的其他计算机，不会损害你的计算机。
+家庭区域（home）：相信网络上的其他计算机，不会损害你的计算机。
+公共区域（public）：不相信网络上的任何计算机，只有选择接受传入的网络连接。
+隔离区域（DMZ）：隔离区域也称为非军事区域，内外网络之间增加的一层网络，起到缓冲作用。对于隔离区域，只有选择接受传入的网络连接。
+信任区域（trusted）：所有的网络连接都可以接受。
+丢弃区域（drop）：任何传入的网络连接都被拒绝。
+内部区域（internal）：信任网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
+外部区域（external）：不相信网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
+ 
+注：Firewalld的默认区域是public。
+firewalld默认提供了九个zone配置文件：block.xml、dmz.xml、drop.xml、external.xml、 home.xml、internal.xml、public.xml、trusted.xml、work.xml，他们都保存在“&#x2F;usr&#x2F;lib &#x2F;firewalld&#x2F;zones&#x2F;”目录下。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="查看当前区域"><a href="#查看当前区域" class="headerlink" title="查看当前区域"></a>查看当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="设置当前区域"><a href="#设置当前区域" class="headerlink" title="设置当前区域"></a>设置当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="创建区域"><a href="#创建区域" class="headerlink" title="创建区域"></a>创建区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --new-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="内部端口转发"><a href="#内部端口转发" class="headerlink" title="内部端口转发"></a>内部端口转发</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd -- add-rich-rule<span class="token operator">=</span><span class="token string">'rule family=ipv4 forward-port port=2222 protocol=tcp to-port=22 '</span> <span class="token parameter variable">--permanent</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><p>限制仅允许指定IP访问3306端口</p>
+<ol>
+<li>删除原有的3306端口访问规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-port<span class="token operator">=</span><span class="token number">3306</span>/tcp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="2">
+<li>添加规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="3">
+<li>生效规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="4">
+<li>查看规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="5">
+<li>删除规则</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="IP段开放"><a href="#IP段开放" class="headerlink" title="IP段开放"></a>IP段开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 新建永久规则，开放192.168.1.1单个源IP的访问</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1
+<span class="token comment"># 新建永久规则，开放192.168.1.0/24整个源IP段的访问</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.0/24
+<span class="token comment"># 移除上述规则</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --remove-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="系统服务的开放"><a href="#系统服务的开放" class="headerlink" title="系统服务的开放"></a>系统服务的开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 开放http服务</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-service<span class="token operator">=</span>http
+<span class="token comment"># 移除上述规则</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="自定义复杂规则（注意是否与已有规则冲突）"><a href="#自定义复杂规则（注意是否与已有规则冲突）" class="headerlink" title="自定义复杂规则（注意是否与已有规则冲突）"></a>自定义复杂规则（注意是否与已有规则冲突）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 允许指定IP访问本机8080端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" accept'</span>
+<span class="token comment"># 允许指定IP段访问本机8080-8090端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="8080-8090" accept'</span>
+<span class="token comment"># 禁止指定IP访问本机8080端口</span>
+firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" reject'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="重载防火墙"><a href="#重载防火墙" class="headerlink" title="重载防火墙"></a>重载防火墙</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>防火墙</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux学习笔记</title>
     <url>/posts/b30ceb9f/</url>
     <content><![CDATA[<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><p>常用命令</p>
@@ -1494,190 +1678,6 @@ echo &quot;The sum is: $s&quot;<span aria-hidden="true" class="line-numbers-rows
       </tags>
   </entry>
   <entry>
-    <title>Linux防火墙操作</title>
-    <url>/posts/83b39de6/</url>
-    <content><![CDATA[<h1 id="Linux防火墙操作"><a href="#Linux防火墙操作" class="headerlink" title="Linux防火墙操作"></a>Linux防火墙操作</h1><p><a href="https://bajie.dev/posts/20221024-iptables/">Iptables的基本用法</a></p>
-<h2 id="防火墙命令"><a href="#防火墙命令" class="headerlink" title="防火墙命令"></a>防火墙命令</h2><table>
-<thead>
-<tr>
-<th>作用</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>查看防火墙状态</td>
-<td>systemctl status firewalld.service<br/>systemctl status firewalld</td>
-</tr>
-<tr>
-<td>开启防火墙</td>
-<td>systemctl start firewalld.service<br/>systemctl start firewalld</td>
-</tr>
-<tr>
-<td>关闭防火墙</td>
-<td>systemctl stop firewalld.service<br/>systemctl stop firewalld</td>
-</tr>
-<tr>
-<td>防火墙开机自启</td>
-<td>systemctl enable firewalld.service</td>
-</tr>
-<tr>
-<td>禁止防火墙开机自启</td>
-<td>systemctl disable firewalld.service</td>
-</tr>
-<tr>
-<td>重启防火墙</td>
-<td>firewall-cmd –reload<br/>systemctl restart firewalld</td>
-</tr>
-</tbody></table>
-<h2 id="端口操作命令"><a href="#端口操作命令" class="headerlink" title="端口操作命令"></a>端口操作命令</h2><table>
-<thead>
-<tr>
-<th>作用</th>
-<th>命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>查询已开放端口</td>
-<td>firewall-cmd –list-port</td>
-</tr>
-<tr>
-<td>查询某个端口是否开放</td>
-<td>firewall-cmd –query-port&#x3D;80&#x2F;tcp</td>
-</tr>
-<tr>
-<td>开启端口</td>
-<td>firewall-cmd –zone&#x3D;public –add-port&#x3D;80&#x2F;tcp –permanent<br/>注：可以是一个端口范围，如1000-2000&#x2F;tcp</td>
-</tr>
-<tr>
-<td>移除端口</td>
-<td>firewall-cmd –zone&#x3D;public –remove-port&#x3D;80&#x2F;tcp –permanent</td>
-</tr>
-<tr>
-<td></td>
-<td>–zone #作用域<br/>–add-port&#x3D;80&#x2F;tcp #添加端口，格式为：端口&#x2F;通讯协议<br/>–remove-port&#x3D;80&#x2F;tcp #移除端口，格式为：端口&#x2F;通讯协议<br/>–permanent #永久生效，没有此参数重启后失效</td>
-</tr>
-</tbody></table>
-<h2 id="区域操作命令"><a href="#区域操作命令" class="headerlink" title="区域操作命令"></a>区域操作命令</h2><ul>
-<li><p>显示当前系统中的默认区域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-
-</li>
-<li><p>设置网络连接或接口的默认区域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span class="token operator">=</span>work<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>显示默认区域的所有规则</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --list-all</span>
-public <span class="token punctuation">(</span>active<span class="token punctuation">)</span>
-  target: default
-  icmp-block-inversion: no
-  interfaces: ens33
-  sources: 
-  services: dhcpv6-client <span class="token function">ssh</span>
-  ports: 
-  protocols: 
-  masquerade: no
-  forward-ports: 
-  source-ports: 
-  icmp-blocks: 
-  rich rules:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>显示已激活的域</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --get-active-zones</span>
-<span class="token function">docker</span>
-  interfaces: br-a340711930cb docker0
-public
-  interfaces: ens33<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-<h2 id="服务操作命令"><a href="#服务操作命令" class="headerlink" title="服务操作命令"></a>服务操作命令</h2><ul>
-<li><p>显示指定区域区域内允许访问的所有服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master ~<span class="token punctuation">]</span><span class="token comment"># firewall-cmd --zone=work --list-services </span>
-dhcpv6-client <span class="token function">ssh</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
-<li><p>为指定区域设置允许访问的某项服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --add-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>删除指定区域已设置的允许访问的某项服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--zone</span><span class="token operator">=</span>work --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-</ul>
-<h2 id="rich规则配置"><a href="#rich规则配置" class="headerlink" title="rich规则配置"></a>rich规则配置</h2><h3 id="防火墙使用区域管理"><a href="#防火墙使用区域管理" class="headerlink" title="防火墙使用区域管理"></a>防火墙使用区域管理</h3><pre class="line-numbers language-none"><code class="language-none">阻塞区域（block）：任何传入的网络数据包都将被阻止。
-工作区域（work）：相信网络上的其他计算机，不会损害你的计算机。
-家庭区域（home）：相信网络上的其他计算机，不会损害你的计算机。
-公共区域（public）：不相信网络上的任何计算机，只有选择接受传入的网络连接。
-隔离区域（DMZ）：隔离区域也称为非军事区域，内外网络之间增加的一层网络，起到缓冲作用。对于隔离区域，只有选择接受传入的网络连接。
-信任区域（trusted）：所有的网络连接都可以接受。
-丢弃区域（drop）：任何传入的网络连接都被拒绝。
-内部区域（internal）：信任网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
-外部区域（external）：不相信网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接。
- 
-注：Firewalld的默认区域是public。
-firewalld默认提供了九个zone配置文件：block.xml、dmz.xml、drop.xml、external.xml、 home.xml、internal.xml、public.xml、trusted.xml、work.xml，他们都保存在“&#x2F;usr&#x2F;lib &#x2F;firewalld&#x2F;zones&#x2F;”目录下。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="查看当前区域"><a href="#查看当前区域" class="headerlink" title="查看当前区域"></a>查看当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --get-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="设置当前区域"><a href="#设置当前区域" class="headerlink" title="设置当前区域"></a>设置当前区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --set-default-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="创建区域"><a href="#创建区域" class="headerlink" title="创建区域"></a>创建区域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --new-zone<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="内部端口转发"><a href="#内部端口转发" class="headerlink" title="内部端口转发"></a>内部端口转发</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd -- add-rich-rule<span class="token operator">=</span><span class="token string">'rule family=ipv4 forward-port port=2222 protocol=tcp to-port=22 '</span> <span class="token parameter variable">--permanent</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="例"><a href="#例" class="headerlink" title="例"></a>例</h3><p>限制仅允许指定IP访问3306端口</p>
-<ol>
-<li>删除原有的3306端口访问规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-port<span class="token operator">=</span><span class="token number">3306</span>/tcp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="2">
-<li>添加规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="3">
-<li>生效规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="4">
-<li>查看规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="5">
-<li>删除规则</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--permanent</span> --remove-rich-rule<span class="token operator">=</span><span class="token string">"rule family="</span>ipv4<span class="token string">" source address="</span> <span class="token number">192.168</span>.0.90<span class="token string">" port protocol="</span>tcp<span class="token string">" port="</span><span class="token number">3306</span><span class="token string">" accept"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="IP段开放"><a href="#IP段开放" class="headerlink" title="IP段开放"></a>IP段开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 新建永久规则，开放192.168.1.1单个源IP的访问</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1
-<span class="token comment"># 新建永久规则，开放192.168.1.0/24整个源IP段的访问</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-source<span class="token operator">=</span><span class="token number">192.168</span>.1.0/24
-<span class="token comment"># 移除上述规则</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --remove-source<span class="token operator">=</span><span class="token number">192.168</span>.1.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="系统服务的开放"><a href="#系统服务的开放" class="headerlink" title="系统服务的开放"></a>系统服务的开放</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 开放http服务</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-service<span class="token operator">=</span>http
-<span class="token comment"># 移除上述规则</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --remove-service<span class="token operator">=</span>http<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="自定义复杂规则（注意是否与已有规则冲突）"><a href="#自定义复杂规则（注意是否与已有规则冲突）" class="headerlink" title="自定义复杂规则（注意是否与已有规则冲突）"></a>自定义复杂规则（注意是否与已有规则冲突）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 允许指定IP访问本机8080端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" accept'</span>
-<span class="token comment"># 允许指定IP段访问本机8080-8090端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.0/24" port protocol="tcp" port="8080-8090" accept'</span>
-<span class="token comment"># 禁止指定IP访问本机8080端口</span>
-firewall-cmd <span class="token parameter variable">--permanent</span> --add-rich-rule<span class="token operator">=</span><span class="token string">'rule family="ipv4" source address="192.168.1.1" port protocol="tcp" port="8080" reject'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="重载防火墙"><a href="#重载防火墙" class="headerlink" title="重载防火墙"></a>重载防火墙</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>防火墙</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nginx的配置</title>
     <url>/posts/7d4620f0/</url>
     <content><![CDATA[<h1 id="Nginx-conf配置文件"><a href="#Nginx-conf配置文件" class="headerlink" title="Nginx.conf配置文件"></a>Nginx.conf配置文件</h1><p>nginx使用最多的三个核心功能是反向代理，负载均衡和静态服务器。nginx的配置信息主要集中在nginx.conf这个配置文件中，将nginx.conf配置文件中的所有配置信息可以划分成以下六部分：</p>
@@ -1972,6 +1972,70 @@ upstream backend_server <span class="token punctuation">&#123;</span>
       <tags>
         <tag>Nginx</tag>
         <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nginx添加新模块</title>
+    <url>/posts/bc4c8e89/</url>
+    <content><![CDATA[<h2 id="Nginx添加新模块-以fastdfs-nginx-module模块为例"><a href="#Nginx添加新模块-以fastdfs-nginx-module模块为例" class="headerlink" title="Nginx添加新模块(以fastdfs-nginx-module模块为例)"></a>Nginx添加新模块(以fastdfs-nginx-module模块为例)</h2><ol>
+<li>进入nginx源码目录（如已删除，从官网重新下载）</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/app/nginx/nginx-1.22.0
+<span class="token function">ls</span>
+auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  Makefile  <span class="token function">man</span>  objs  README  src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>下载fastdfs-nginx-module模块，并解压</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/happyfish100/fastdfs-nginx-module/archive/refs/tags/V1.22.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="3">
+<li>查看nginx版本以及编译参数</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nginx <span class="token parameter variable">-V</span>
+
+<span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<ol start="4">
+<li>执行命令重新编译nginx，在最后加上fastdfs-nginx-module模块</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol start="5">
+<li><p>执行<code>make </code>，注意：千万别<code>make install</code>，否则就覆盖安装了）， make完之后在软件目录下就多了个nginx，这个就是新版本的程序了。</p>
+</li>
+<li><p>进入启动文件夹</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># which nginx</span>
+/usr/sbin/nginx
+<span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># cd /usr/sbin/</span>
+<span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># ls</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol start="7">
+<li>备份原来启动文件并替换</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> ./nginx ./nginx.bak
+<span class="token function">mv</span> /home/app/nginx/nginx-1.22.0/objs/nginx ./<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="8">
+<li>启动nginx</li>
+<li><code>nginx -V</code>查看添加的模块</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
+nginx version: nginx/1.22.0
+built by gcc <span class="token number">4.8</span>.5 <span class="token number">20150623</span> <span class="token punctuation">(</span>Red Hat <span class="token number">4.8</span>.5-44<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
+built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
+TLS SNI support enabled
+configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2383,70 +2447,6 @@ AnsibleDir: &#x2F;etc&#x2F;ansible<span aria-hidden="true" class="line-numbers-r
       </tags>
   </entry>
   <entry>
-    <title>Nginx添加新模块</title>
-    <url>/posts/bc4c8e89/</url>
-    <content><![CDATA[<h2 id="Nginx添加新模块-以fastdfs-nginx-module模块为例"><a href="#Nginx添加新模块-以fastdfs-nginx-module模块为例" class="headerlink" title="Nginx添加新模块(以fastdfs-nginx-module模块为例)"></a>Nginx添加新模块(以fastdfs-nginx-module模块为例)</h2><ol>
-<li>进入nginx源码目录（如已删除，从官网重新下载）</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /home/app/nginx/nginx-1.22.0
-<span class="token function">ls</span>
-auto  CHANGES  CHANGES.ru  conf  configure  contrib  html  LICENSE  Makefile  <span class="token function">man</span>  objs  README  src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<ol start="2">
-<li>下载fastdfs-nginx-module模块，并解压</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/happyfish100/fastdfs-nginx-module/archive/refs/tags/V1.22.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="3">
-<li>查看nginx版本以及编译参数</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nginx <span class="token parameter variable">-V</span>
-
-<span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<ol start="4">
-<li>执行命令重新编译nginx，在最后加上fastdfs-nginx-module模块</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./configure <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<ol start="5">
-<li><p>执行<code>make </code>，注意：千万别<code>make install</code>，否则就覆盖安装了）， make完之后在软件目录下就多了个nginx，这个就是新版本的程序了。</p>
-</li>
-<li><p>进入启动文件夹</p>
-</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># which nginx</span>
-/usr/sbin/nginx
-<span class="token punctuation">[</span>root@master objs<span class="token punctuation">]</span><span class="token comment"># cd /usr/sbin/</span>
-<span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># ls</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ol start="7">
-<li>备份原来启动文件并替换</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mv</span> ./nginx ./nginx.bak
-<span class="token function">mv</span> /home/app/nginx/nginx-1.22.0/objs/nginx ./<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<ol start="8">
-<li>启动nginx</li>
-<li><code>nginx -V</code>查看添加的模块</li>
-</ol>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@master sbin<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
-nginx version: nginx/1.22.0
-built by gcc <span class="token number">4.8</span>.5 <span class="token number">20150623</span> <span class="token punctuation">(</span>Red Hat <span class="token number">4.8</span>.5-44<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
-built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
-TLS SNI support enabled
-configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/data/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/data/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/data/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/data/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/data/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/data/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/data/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.14 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>Nginx</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ansible批量初始化服务器</title>
     <url>/posts/ab7a4847/</url>
     <content><![CDATA[<h2 id="ansible批量初始化服务器"><a href="#ansible批量初始化服务器" class="headerlink" title="ansible批量初始化服务器"></a>ansible批量初始化服务器</h2><p>主机组配置<code>/etc/ansible/hosts</code>：</p>
@@ -2579,271 +2579,6 @@ configure arguments: <span class="token parameter variable">--prefix</span><span
       <tags>
         <tag>linux</tag>
         <tag>ansible</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>k8s部署自己构建的mysql镜像</title>
-    <url>/posts/4bc91c96/</url>
-    <content><![CDATA[<h2 id="学前准备"><a href="#学前准备" class="headerlink" title="学前准备"></a>学前准备</h2><p>1.Docker Hub 账号<br>2. </p>
-<table>
-<thead>
-<tr>
-<th>k8s集群环境</th>
-<th>hostname</th>
-<th>IP</th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-<td>k8s-master</td>
-<td>192.168.221.3</td>
-</tr>
-<tr>
-<td></td>
-<td>k8s-node1</td>
-<td>192.168.221.4</td>
-</tr>
-<tr>
-<td>3.</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>软件环境</td>
-<td>软件名</td>
-<td>版本</td>
-</tr>
-<tr>
-<td>——–</td>
-<td>——-</td>
-<td>———-</td>
-</tr>
-<tr>
-<td></td>
-<td>docker</td>
-<td>18.06.1-ce</td>
-</tr>
-<tr>
-<td></td>
-<td>kubectl</td>
-<td>1.20.9</td>
-</tr>
-<tr>
-<td></td>
-<td>kubeadm</td>
-<td>1.20.9</td>
-</tr>
-<tr>
-<td></td>
-<td>kubelet</td>
-<td>1.20.9</td>
-</tr>
-</tbody></table>
-<h2 id="push镜像到Docker-Hub"><a href="#push镜像到Docker-Hub" class="headerlink" title="push镜像到Docker Hub"></a>push镜像到Docker Hub</h2><ol>
-<li><code>docker ps -a</code>查看自己构建的镜像</li>
-<li><code>docker tag [本地镜像id] [Docker Hub账号]/[自定义镜像名称]  //打包镜像</code></li>
-<li><code>docker login</code>登录到Docker Hub</li>
-<li><code>docker push lunrry/docker-mysql:1.0</code>推送镜像</li>
-<li>此时登录Docker Hub官网，就能在自己仓库看到推送上来的镜像了<br><img src="http://img.lunrry.top/202307041054576.png" alt="image-1669982415016"></li>
-<li>可以尝试将本地images删除，拉取仓库镜像<code>docker pull lunrry/docker-mysql:1.0</code></li>
-</ol>
-<h2 id="通过k8s集群，从Docker-Hub的个人镜像仓库拉取镜像"><a href="#通过k8s集群，从Docker-Hub的个人镜像仓库拉取镜像" class="headerlink" title="通过k8s集群，从Docker Hub的个人镜像仓库拉取镜像"></a>通过k8s集群，从Docker Hub的个人镜像仓库拉取镜像</h2><ol>
-<li>首先确认Docker Hub仍处于登录状态，此时在docker目录中有一个配置文件<code>config.json</code>里面保存有秘钥信息，通过此命令查看<br><code>cat ~/.docker/config.json | base64 -w 0</code>  务必记录好生成的这串信息，不要换行</li>
-<li>在master节点主机创建一个secret的yaml文件，叫做&#x3D;&#x3D;myregistry-secret.yaml&#x3D;&#x3D;<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
-kind: Secret
-metadata:
-  name: mydockersecret
-type: kubernetes.io&#x2F;dockerconfigjson
-data:
-  .dockerconfigjson: 替换成刚才生成的秘钥信息<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>创建并检查secret凭证<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl apply -f myregistry-secret.yaml
-secret&#x2F;mysecret created
-[root@k8s-master ~]# kubectl get secret mysecret
-NAME       TYPE                             DATA   AGE
-mysecret   kubernetes.io&#x2F;dockerconfigjson   1      12s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ol>
-<h2 id="部署准备"><a href="#部署准备" class="headerlink" title="部署准备"></a>部署准备</h2><h3 id="NFS-服务创建"><a href="#NFS-服务创建" class="headerlink" title="NFS 服务创建"></a>NFS 服务创建</h3><ol>
-<li>所有节点安装nfs <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum <span class="token function">install</span> <span class="token parameter variable">-y</span> nfs-common nfs-utils <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li>master节点创建共享目录并授权<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> /nfs_data
-<span class="token function">chmod</span> <span class="token number">666</span> /nfs_data<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-<li>修改nfs-server共享设置<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"/nfs_data *(rw,sync,no_root_squash)"</span> <span class="token operator">>></span> /etc/exports<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>rw</td>
-<td>可读可写</td>
-</tr>
-<tr>
-<td>ro</td>
-<td>只读</td>
-</tr>
-<tr>
-<td>root_squash</td>
-<td>当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td>no_root_squash</td>
-<td>当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
-</tr>
-<tr>
-<td>all_squash</td>
-<td>无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
-</tr>
-<tr>
-<td>no_all_squash</td>
-<td>访问用户先与本机用户匹配，匹配失败后再映射为匿名用户或用户组</td>
-</tr>
-<tr>
-<td>sync</td>
-<td>同时将数据写入到内存与硬盘中，保证不丢失数据</td>
-</tr>
-<tr>
-<td>async</td>
-<td>优先将数据保存到内存，然后再写入硬盘；这样效率更高，但可能会丢失数据</td>
-</tr>
-</tbody></table>
-<ol start="4">
-<li>使能配置，启动rpc和nfs<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl start rpcbind
-systemctl start nfs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-此时已经在master节点搭建了一个nfs服务器，挂载节点为<code>/nfs_data</code></li>
-</ol>
-<h3 id="创建PV"><a href="#创建PV" class="headerlink" title="创建PV"></a>创建PV</h3><p>下面创建一个 PV <code>mypv1</code>，配置文件 <code>nfs-pv1.yml</code> 如下：<br><code>vi nfs-pv1.yml</code></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
-<span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
-<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
-  <span class="token key atrule">name</span><span class="token punctuation">:</span> pv1
-<span class="token key atrule">spec</span><span class="token punctuation">:</span>
-  <span class="token key atrule">capacity</span><span class="token punctuation">:</span>
-    <span class="token key atrule">storage</span><span class="token punctuation">:</span> 1Gi
-  <span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
-    <span class="token punctuation">-</span> ReadWriteMany
-  <span class="token key atrule">persistentVolumeReclaimPolicy</span><span class="token punctuation">:</span> Retain
-  <span class="token key atrule">storageClassName</span><span class="token punctuation">:</span> nfs
-  <span class="token key atrule">nfs</span><span class="token punctuation">:</span>
-    <span class="token key atrule">path</span><span class="token punctuation">:</span> /nfs_data
-    <span class="token key atrule">server</span><span class="token punctuation">:</span> 192.168.221.3  <span class="token comment">#指定nfs目录的机器IP地址</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>参数说明：</p>
-<blockquote>
-<p>  <code>storage</code>设定PV容量为1G<br> <code>accessModes</code>指定访问模式</p>
-<ul>
-<li>ReadWriteOnce：PV 能以 read-write 模式 mount 到单个节点。</li>
-<li>ReadOnlyMany：PV 能以 read-only 模式 mount 到多个节点。</li>
-<li>ReadWriteMany ：PV 能以 read-write 模式 mount 到多个节点。</li>
-</ul>
-<p> <code>persistentVolumeReclaimPolicy</code> 指定当前 PV 的回收策略</p>
-<ul>
-<li>Retain： 需要管理员手工回收。</li>
-<li>Recycle：清除 PV 中的数据，效果相当于执行 rm -rf &#x2F;thevolume&#x2F;*。</li>
-<li>Delete： 删除 Storage Provider 上的对应存储资源，例如 AWS EBS、GCE PD、Azure Disk、- OpenStack Cinder Volume 等</li>
-</ul>
-<p> <code>storageClassName</code> 指定 PV 的 class 为 nfs。相当于为 PV 设置了一个分类，PVC 可以指定 class 申请相应 class 的 PV</p>
-</blockquote>
-<p>创建pv1</p>
-<pre class="line-numbers language-none"><code class="language-none">kubectl apply -f nfs-pv1.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><strong>报错</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">error: error parsing nfs-pv1.yml: error converting YAML to JSON: yaml: line 9: did not find expected &#39;-&#39; indicator<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果出现此报错，原因之一是yaml文件格式不对<br><a href="https://verytoolz.com/yaml-validator.html">YAML在线验证</a><br>创建成功后通过此命令查看</p>
-<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pv
-NAME    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
-pv1   1Gi        RWX            Retain          Available           nfs                     2m7s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h3 id="创建PVC"><a href="#创建PVC" class="headerlink" title="创建PVC"></a>创建PVC</h3><p>下面创建一个 PV <code>mypvc1</code>，配置文件 <code>nfs-pvc1.yml</code> 如下：<br><code>vi nfs-pvc1.yml</code></p>
-<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc1
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: nfs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>PVC 只需要指定 PV 的容量，访问模式和 class<br>创建pvc1</p>
-<pre class="line-numbers language-none"><code class="language-none">kubectl apply -f nfs-pvc1.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>创建成功后通过此命令查看</p>
-<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pvc
-NAME     STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-pvc1   Bound    mypv1    1Gi        RWX            nfs            82s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>从输出可以看到 <code>mypvc1</code> 已经 Bound 到 <code>mypv1</code>，申请成功</p>
-<h3 id="创建deployment-yaml文件"><a href="#创建deployment-yaml文件" class="headerlink" title="创建deployment.yaml文件"></a>创建deployment.yaml文件</h3><pre class="line-numbers language-none"><code class="language-none">apiVersion: apps&#x2F;v1
-kind: Deployment
-metadata:
-  name: mysql-deployment
-  labels:
-    app: mysql
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mysql
-  template:
-    metadata:
-      labels:
-        app: mysql
-    spec:
-      containers:
-      - name: mysql
-        image: lunrry&#x2F;docker-mysql:1.1
-        ports:
-        - containerPort: 3306
-        volumeMounts:
-        - mountPath: &quot;&#x2F;var&#x2F;lib&#x2F;mysql&quot;
-          name: mysql-volume
-      volumes:
-        - name: mysql-volume
-          persistentVolumeClaim:
-            claimName: pvc1
-      imagePullSecrets: 
-      - name: mydockersecret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>创建<code>kubectl apply -f deployment.yaml</code></p>
-<p>输入<code>kubectl get pods</code>查看部署情况</p>
-<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pod
-NAME                       READY   STATUS    RESTARTS   AGE
-mysql01-75df798f94-ks8hk   1&#x2F;1     Running   0          11s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h3 id="Mysql-Service"><a href="#Mysql-Service" class="headerlink" title="Mysql Service"></a>Mysql Service</h3><p><code>vi mysql-service.yaml</code></p>
-<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  type: NodePort
-  ports:
-  - port: 3306
-    targetPort: 3306
-    nodePort: 31111
-  selector:
-    app: mysql
-  selector:
-    app: mysql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>创建<code>kubectl apply -f mysql-service.yaml</code><br>创建成功</p>
-<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl apply -f mysql-service.yaml
-service&#x2F;mysql created<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><pre class="line-numbers language-none"><code class="language-none">kubectl exec -it mysql01-75df798f94-ks8hk &#x2F;bin&#x2F;bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><strong>错误</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">root@mysql01-75df798f94-ks8hk:&#x2F;# mysql -uroot -p
-Enter password: 
-ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.sock&#39; (2)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>kubernetes</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>kubernetes</tag>
-        <tag>Mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -3368,48 +3103,269 @@ clusterrolebinding.rbac.authorization.k8s.io&#x2F;admin-user created<span aria-h
       </tags>
   </entry>
   <entry>
-    <title>mysql8常用命令</title>
-    <url>/posts/d032354a/</url>
-    <content><![CDATA[<h2 id="创建用户并授权"><a href="#创建用户并授权" class="headerlink" title="创建用户并授权"></a>创建用户并授权</h2><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#显示创建用户的验证条件
-SHOW VARIABLES LIKE &#39;validate_password%&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#创建用户
-CREATE USER &#39;用户名&#39;@&#39;%或者IP&#39; IDENTIFIED BY &#39;密码&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 授权某个用户所有数据库所有权限
-GRANT ALL PRIVILEGES ON *.* TO &quot;用户名&quot;@&quot;IP&#x2F;localhost&#x2F;%&quot;
-
-# 授予某个用户所有数据库读权限
-GRANT SELECT ON *.* TO &#39;用户名&#39;@&#39;%或者IP&#39; ;
-
-# 授予某个用户某个数据库写权限
-GRANT INSERT ON &#96;数据库名&#96;.* TO &#39;用户名&#39;@&#39;%或者IP&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+    <title>k8s部署自己构建的mysql镜像</title>
+    <url>/posts/4bc91c96/</url>
+    <content><![CDATA[<h2 id="学前准备"><a href="#学前准备" class="headerlink" title="学前准备"></a>学前准备</h2><p>1.Docker Hub 账号<br>2. </p>
+<table>
+<thead>
+<tr>
+<th>k8s集群环境</th>
+<th>hostname</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>k8s-master</td>
+<td>192.168.221.3</td>
+</tr>
+<tr>
+<td></td>
+<td>k8s-node1</td>
+<td>192.168.221.4</td>
+</tr>
+<tr>
+<td>3.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>软件环境</td>
+<td>软件名</td>
+<td>版本</td>
+</tr>
+<tr>
+<td>——–</td>
+<td>——-</td>
+<td>———-</td>
+</tr>
+<tr>
+<td></td>
+<td>docker</td>
+<td>18.06.1-ce</td>
+</tr>
+<tr>
+<td></td>
+<td>kubectl</td>
+<td>1.20.9</td>
+</tr>
+<tr>
+<td></td>
+<td>kubeadm</td>
+<td>1.20.9</td>
+</tr>
+<tr>
+<td></td>
+<td>kubelet</td>
+<td>1.20.9</td>
+</tr>
+</tbody></table>
+<h2 id="push镜像到Docker-Hub"><a href="#push镜像到Docker-Hub" class="headerlink" title="push镜像到Docker Hub"></a>push镜像到Docker Hub</h2><ol>
+<li><code>docker ps -a</code>查看自己构建的镜像</li>
+<li><code>docker tag [本地镜像id] [Docker Hub账号]/[自定义镜像名称]  //打包镜像</code></li>
+<li><code>docker login</code>登录到Docker Hub</li>
+<li><code>docker push lunrry/docker-mysql:1.0</code>推送镜像</li>
+<li>此时登录Docker Hub官网，就能在自己仓库看到推送上来的镜像了<br><img src="http://img.lunrry.top/202307041054576.png" alt="image-1669982415016"></li>
+<li>可以尝试将本地images删除，拉取仓库镜像<code>docker pull lunrry/docker-mysql:1.0</code></li>
+</ol>
+<h2 id="通过k8s集群，从Docker-Hub的个人镜像仓库拉取镜像"><a href="#通过k8s集群，从Docker-Hub的个人镜像仓库拉取镜像" class="headerlink" title="通过k8s集群，从Docker Hub的个人镜像仓库拉取镜像"></a>通过k8s集群，从Docker Hub的个人镜像仓库拉取镜像</h2><ol>
+<li>首先确认Docker Hub仍处于登录状态，此时在docker目录中有一个配置文件<code>config.json</code>里面保存有秘钥信息，通过此命令查看<br><code>cat ~/.docker/config.json | base64 -w 0</code>  务必记录好生成的这串信息，不要换行</li>
+<li>在master节点主机创建一个secret的yaml文件，叫做&#x3D;&#x3D;myregistry-secret.yaml&#x3D;&#x3D;<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
+kind: Secret
+metadata:
+  name: mydockersecret
+type: kubernetes.io&#x2F;dockerconfigjson
+data:
+  .dockerconfigjson: 替换成刚才生成的秘钥信息<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>创建并检查secret凭证<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl apply -f myregistry-secret.yaml
+secret&#x2F;mysecret created
+[root@k8s-master ~]# kubectl get secret mysecret
+NAME       TYPE                             DATA   AGE
+mysecret   kubernetes.io&#x2F;dockerconfigjson   1      12s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h2 id="部署准备"><a href="#部署准备" class="headerlink" title="部署准备"></a>部署准备</h2><h3 id="NFS-服务创建"><a href="#NFS-服务创建" class="headerlink" title="NFS 服务创建"></a>NFS 服务创建</h3><ol>
+<li>所有节点安装nfs <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">yum <span class="token function">install</span> <span class="token parameter variable">-y</span> nfs-common nfs-utils <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li>master节点创建共享目录并授权<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> /nfs_data
+<span class="token function">chmod</span> <span class="token number">666</span> /nfs_data<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li>修改nfs-server共享设置<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"/nfs_data *(rw,sync,no_root_squash)"</span> <span class="token operator">>></span> /etc/exports<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rw</td>
+<td>可读可写</td>
+</tr>
+<tr>
+<td>ro</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>root_squash</td>
+<td>当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td>no_root_squash</td>
+<td>当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
+</tr>
+<tr>
+<td>all_squash</td>
+<td>无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
+</tr>
+<tr>
+<td>no_all_squash</td>
+<td>访问用户先与本机用户匹配，匹配失败后再映射为匿名用户或用户组</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>同时将数据写入到内存与硬盘中，保证不丢失数据</td>
+</tr>
+<tr>
+<td>async</td>
+<td>优先将数据保存到内存，然后再写入硬盘；这样效率更高，但可能会丢失数据</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>使能配置，启动rpc和nfs<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl start rpcbind
+systemctl start nfs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+此时已经在master节点搭建了一个nfs服务器，挂载节点为<code>/nfs_data</code></li>
+</ol>
+<h3 id="创建PV"><a href="#创建PV" class="headerlink" title="创建PV"></a>创建PV</h3><p>下面创建一个 PV <code>mypv1</code>，配置文件 <code>nfs-pv1.yml</code> 如下：<br><code>vi nfs-pv1.yml</code></p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> PersistentVolume
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> pv1
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">capacity</span><span class="token punctuation">:</span>
+    <span class="token key atrule">storage</span><span class="token punctuation">:</span> 1Gi
+  <span class="token key atrule">accessModes</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ReadWriteMany
+  <span class="token key atrule">persistentVolumeReclaimPolicy</span><span class="token punctuation">:</span> Retain
+  <span class="token key atrule">storageClassName</span><span class="token punctuation">:</span> nfs
+  <span class="token key atrule">nfs</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /nfs_data
+    <span class="token key atrule">server</span><span class="token punctuation">:</span> 192.168.221.3  <span class="token comment">#指定nfs目录的机器IP地址</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>参数说明：</p>
+<blockquote>
+<p>  <code>storage</code>设定PV容量为1G<br> <code>accessModes</code>指定访问模式</p>
 <ul>
-<li><strong>ALL PRIVILEGES:</strong> 所有权限</li>
-<li><strong>INSERT:</strong> 允许用户插入权限</li>
-<li><strong>SELECT:</strong> 允许用户读权限.</li>
-<li><strong>UPDATE:</strong> 允许用户更新权限</li>
-<li><strong>CREATE:</strong> 允许用户创建表和数据库权限</li>
-<li><strong>DELETE:</strong> 允许用户删除表中的行数据权限</li>
-<li><strong>DROP:</strong> 允许用户删除数据库和表权限</li>
+<li>ReadWriteOnce：PV 能以 read-write 模式 mount 到单个节点。</li>
+<li>ReadOnlyMany：PV 能以 read-only 模式 mount 到多个节点。</li>
+<li>ReadWriteMany ：PV 能以 read-write 模式 mount 到多个节点。</li>
 </ul>
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 刷新权限
-flush privileges;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p> <code>persistentVolumeReclaimPolicy</code> 指定当前 PV 的回收策略</p>
+<ul>
+<li>Retain： 需要管理员手工回收。</li>
+<li>Recycle：清除 PV 中的数据，效果相当于执行 rm -rf &#x2F;thevolume&#x2F;*。</li>
+<li>Delete： 删除 Storage Provider 上的对应存储资源，例如 AWS EBS、GCE PD、Azure Disk、- OpenStack Cinder Volume 等</li>
+</ul>
+<p> <code>storageClassName</code> 指定 PV 的 class 为 nfs。相当于为 PV 设置了一个分类，PVC 可以指定 class 申请相应 class 的 PV</p>
+</blockquote>
+<p>创建pv1</p>
+<pre class="line-numbers language-none"><code class="language-none">kubectl apply -f nfs-pv1.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>报错</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">error: error parsing nfs-pv1.yml: error converting YAML to JSON: yaml: line 9: did not find expected &#39;-&#39; indicator<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果出现此报错，原因之一是yaml文件格式不对<br><a href="https://verytoolz.com/yaml-validator.html">YAML在线验证</a><br>创建成功后通过此命令查看</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pv
+NAME    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+pv1   1Gi        RWX            Retain          Available           nfs                     2m7s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="创建PVC"><a href="#创建PVC" class="headerlink" title="创建PVC"></a>创建PVC</h3><p>下面创建一个 PV <code>mypvc1</code>，配置文件 <code>nfs-pvc1.yml</code> 如下：<br><code>vi nfs-pvc1.yml</code></p>
+<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>PVC 只需要指定 PV 的容量，访问模式和 class<br>创建pvc1</p>
+<pre class="line-numbers language-none"><code class="language-none">kubectl apply -f nfs-pvc1.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>创建成功后通过此命令查看</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pvc
+NAME     STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+pvc1   Bound    mypv1    1Gi        RWX            nfs            82s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>从输出可以看到 <code>mypvc1</code> 已经 Bound 到 <code>mypv1</code>，申请成功</p>
+<h3 id="创建deployment-yaml文件"><a href="#创建deployment-yaml文件" class="headerlink" title="创建deployment.yaml文件"></a>创建deployment.yaml文件</h3><pre class="line-numbers language-none"><code class="language-none">apiVersion: apps&#x2F;v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: lunrry&#x2F;docker-mysql:1.1
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: &quot;&#x2F;var&#x2F;lib&#x2F;mysql&quot;
+          name: mysql-volume
+      volumes:
+        - name: mysql-volume
+          persistentVolumeClaim:
+            claimName: pvc1
+      imagePullSecrets: 
+      - name: mydockersecret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>创建<code>kubectl apply -f deployment.yaml</code></p>
+<p>输入<code>kubectl get pods</code>查看部署情况</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl get pod
+NAME                       READY   STATUS    RESTARTS   AGE
+mysql01-75df798f94-ks8hk   1&#x2F;1     Running   0          11s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="Mysql-Service"><a href="#Mysql-Service" class="headerlink" title="Mysql Service"></a>Mysql Service</h3><p><code>vi mysql-service.yaml</code></p>
+<pre class="line-numbers language-none"><code class="language-none">apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  type: NodePort
+  ports:
+  - port: 3306
+    targetPort: 3306
+    nodePort: 31111
+  selector:
+    app: mysql
+  selector:
+    app: mysql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>创建<code>kubectl apply -f mysql-service.yaml</code><br>创建成功</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@k8s-master ~]# kubectl apply -f mysql-service.yaml
+service&#x2F;mysql created<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><pre class="line-numbers language-none"><code class="language-none">kubectl exec -it mysql01-75df798f94-ks8hk &#x2F;bin&#x2F;bash<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>错误</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">root@mysql01-75df798f94-ks8hk:&#x2F;# mysql -uroot -p
+Enter password: 
+ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.sock&#39; (2)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 显示所有权限
-SHOW GRANTS FOR &#39;用户名&#39;@&#39;%或者IP&#39;;
 
-# 删除某个权限
-REVOKE SELECT ON *.* FROM &#39;用户名&#39;@&#39;%或者IP&#39;;
 
-# 删除用户
-DROP USER &#39;用户名&#39;@&#39;%或者IP&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 
 ]]></content>
       <categories>
-        <category>Mysql</category>
+        <category>kubernetes</category>
       </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>kubernetes</tag>
+        <tag>Mysql</tag>
+      </tags>
   </entry>
   <entry>
     <title>mysql自动备份脚本</title>
@@ -3493,93 +3449,213 @@ log_correct <span class="token string">"已删除10天前备份数据"</span><sp
       </tags>
   </entry>
   <entry>
-    <title>一键化脚本</title>
-    <url>/posts/dab9ddeb/</url>
-    <content><![CDATA[<h2 id="脚本使用"><a href="#脚本使用" class="headerlink" title="脚本使用"></a>脚本使用</h2><p><code>wget http://www.lunrry.top:99/p/COnZHs5NgS/install_all.sh &amp;&amp; chmod +x install_all.sh &amp;&amp; ./install_all.sh</code></p>
-<hr>
-<p>请选择要执行的命令：</p>
-<ol>
-<li>centos初始化配置</li>
-<li>安装fdfs-6.06（一般位于DB服务器）</li>
-<li>安装nginx-1.22.0（web服务器）</li>
-<li>安装nginx+fdfs，两者位于同一台机器</li>
-<li>安装nano-7.2编辑器</li>
-<li>安装docker</li>
-<li>安装k8s（自动安装适配版本docker）</li>
-<li>安装zabbix-5.0-LTS</li>
-</ol>
-<hr>
-<h2 id="Readme"><a href="#Readme" class="headerlink" title="Readme"></a>Readme</h2><ol>
-<li>init.sh</li>
-</ol>
-<blockquote>
-<p>实现yum换源、安装基本工具、同步时间服务器、设定最大进程数、设置打开文件描述符的数量等linux基础优化</p>
-</blockquote>
-<ol start="2">
-<li>install_fdfs.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
-<p>– 后面接参数：</p>
-<ul>
-<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs</li>
-</ul>
-<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器,DB服务器上的安装</p>
-</blockquote>
-<ol start="3">
-<li>nginx_install.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/nginx</code></p>
-<p>– 后面接参数：</p>
-<ul>
-<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;nginx</li>
-</ul>
-<p>此脚本会安装nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器，WEB服务器上的安装</p>
-</blockquote>
-<ol start="4">
-<li>install_ngx_fdfs.sh</li>
-</ol>
-<blockquote>
-<p>单独执行：<code>curl http://www.lunrry.top:99/p/2O6ZjaqOvL/install_ngx_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
-<p>– 后面接参数： </p>
-<ul>
-<li><p>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs </p>
-</li>
-<li><p>nginx文件位置在&#x2F;home&#x2F;data&#x2F;nginx</p>
-</li>
-</ul>
-<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器在同一台机器的情况</p>
-</blockquote>
-<ol start="5">
-<li>install.sh</li>
-</ol>
-<blockquote>
-<p> <code>curl http://www.lunrry.top:99/p/cbwpRZoCF8/install.sh | bash</code></p>
-<ul>
-<li>执行代码安装<code>nano-7.2</code>，并设置<code>代码语法高亮以及tab占位4空格</code></li>
-<li>理论linux系统通用</li>
-</ul>
-</blockquote>
-<ol start="6">
-<li>docker_install.sh</li>
-</ol>
-<blockquote>
-<p>自定义安装docker并换源</p>
-</blockquote>
-<ol start="7">
-<li>k8s_install.sh</li>
-</ol>
-<blockquote>
-<p>快速部署指定版本k8s集群,极大程度降低工作量，能在10分钟内完成任意版本的k8s集群部署</p>
-</blockquote>
-<ol start="8">
-<li>zabbix_install.sh</li>
-</ol>
-<blockquote>
-<p>快速安装zabbix-5.0-LTS,同时会安装MariaDB数据库</p>
-</blockquote>
+    <title>nginx编译报错解决办法</title>
+    <url>/posts/f1fcef01/</url>
+    <content><![CDATA[<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>编译安装nginx执行<code>make</code>命令时报错</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:903:42: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size between <span class="token number">111</span> and <span class="token number">127</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
+  <span class="token number">902</span> <span class="token operator">|</span>   file_id_without_group <span class="token operator">=</span> uri + <span class="token number">1</span><span class="token punctuation">;</span> //skip /
+      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
+      <span class="token operator">|</span>                                          ^~
+/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:903:3: note: ‘snprintf’ output between <span class="token number">2</span> and <span class="token number">528</span> bytes into a destination of size <span class="token number">128</span>
+  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
+      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <span class="token number">904</span> <span class="token operator">|</span>    my_group_name, file_id_without_group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:857:39: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size <span class="token number">128</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
+  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:857:3: note: ‘snprintf’ output between <span class="token number">1</span> and <span class="token number">511</span> bytes into a destination of size <span class="token number">128</span>
+  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc <span class="token parameter variable">-o</span> objs/ngx_http_image_filter_module.so <span class="token punctuation">\</span>
+objs/src/http/modules/ngx_http_image_filter_module.o <span class="token punctuation">\</span>
+objs/ngx_http_image_filter_module_modules.o <span class="token punctuation">\</span>
+<span class="token parameter variable">-lgd</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-shared</span>
+cc1: all warnings being treated as errors
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: *** <span class="token punctuation">[</span>objs/Makefile:1840：objs/addon/src/ngx_http_fastdfs_module.o<span class="token punctuation">]</span> 错误 <span class="token number">1</span>
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: 离开目录“/home/app/fastdfs/nginx-1.22.0”
+make: *** <span class="token punctuation">[</span>Makefile:10：build<span class="token punctuation">]</span> 错误 <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>在编译 fastdfs-nginx-module 模块的过程中,common.c文件中的一个printf语句可能会导致字符串截断,从而触发了编译器的警告并以错误退出。</p>
+<h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><p>更换gcc版本，由于我安装的gcc版本为10.2但是fastdfs-nginx-module-1.22模块版本较老，代码的格式字符串与传入参数类型不匹配造成的。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装centos-release-scl</span>
+yum <span class="token function">install</span> centos-release-scl-rh
+<span class="token comment"># 安装devtoolset</span>
+yum <span class="token function">install</span> devtoolset-7-gcc devtoolset-7-gcc-c++
+<span class="token comment"># 查看已安装的gcc版本</span>
+scl <span class="token parameter variable">-l</span>
+<span class="token comment"># 切换到gcc-7.0</span>
+scl <span class="token builtin class-name">enable</span> devtoolset-7 <span class="token function">bash</span>
+<span class="token comment"># 编译完成后退出当前scl bash环境，恢复成系统bash环境</span>
+<span class="token builtin class-name">exit</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 ]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx编译升级方案</title>
+    <url>/posts/904b2880/</url>
+    <content><![CDATA[<h2 id="Nginx编译升级"><a href="#Nginx编译升级" class="headerlink" title="Nginx编译升级"></a>Nginx编译升级</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost opt<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
+nginx version: nginx/1.20.1
+built by gcc <span class="token number">4.8</span>.5 <span class="token number">20150623</span> <span class="token punctuation">(</span>Red Hat <span class="token number">4.8</span>.5-44<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
+built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
+TLS SNI support enabled
+configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/var/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/var/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/var/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/var/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/var/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/var/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.15 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1rc1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="http://img.lunrry.top/img/202312111603468.png" alt="image-20231211160340414"></p>
+<h3 id="编译时报错"><a href="#编译时报错" class="headerlink" title="编译时报错"></a>编译时报错</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">modules <span class="token parameter variable">-I</span> src/os/unix <span class="token parameter variable">-I</span> /home/app/nginx/lua-nginx-module-0.10.15/src/api <span class="token parameter variable">-I</span> /home/app/nginx/ngx_devel_kit-0.3.1rc1/objs <span class="token parameter variable">-I</span> objs/addon/ndk <span class="token parameter variable">-I</span> /home/app/nginx/openssl-OpenSSL_1_1_1k/.openssl/include <span class="token parameter variable">-I</span> /usr/include/libxml2 <span class="token parameter variable">-I</span> objs <span class="token parameter variable">-I</span> src/http <span class="token parameter variable">-I</span> src/http/modules <span class="token parameter variable">-I</span> src/http/v2 <span class="token parameter variable">-I</span> /usr/include/luajit-2.0 <span class="token parameter variable">-I</span> /home/app/nginx/ngx_devel_kit-0.3.1rc1/src <span class="token parameter variable">-I</span> /home/app/nginx/ngx_devel_kit-0.3.1rc1/src <span class="token parameter variable">-I</span> /home/app/nginx/ngx_devel_kit-0.3.1rc1/objs <span class="token parameter variable">-I</span> objs/addon/ndk <span class="token parameter variable">-I</span> /usr/local/include <span class="token parameter variable">-I</span> src/mail <span class="token parameter variable">-I</span> src/stream <span class="token punctuation">\</span>
+	<span class="token parameter variable">-o</span> objs/addon/src/ngx_http_lua_headers_in.o <span class="token punctuation">\</span>
+	/home/app/nginx/lua-nginx-module-0.10.15/src/ngx_http_lua_headers_in.c
+In <span class="token function">file</span> included from /usr/include/dlfcn.h:25,
+                 from src/os/unix/ngx_linux_config.h:58,
+                 from src/core/ngx_config.h:26,
+                 from /home/app/nginx/lua-nginx-module-0.10.15/src/ddebug.h:11,
+                 from /home/app/nginx/lua-nginx-module-0.10.15/src/ngx_http_lua_headers_in.c:10:
+/home/app/nginx/lua-nginx-module-0.10.15/src/ngx_http_lua_headers_in.c:162:50: error: ‘ngx_http_headers_in_t’ has no member named ‘cookies’<span class="token punctuation">;</span> did you mean ‘cookie’?
+  <span class="token number">162</span> <span class="token operator">|</span>                  offsetof<span class="token punctuation">(</span>ngx_http_headers_in_t, cookies<span class="token punctuation">)</span>,
+      <span class="token operator">|</span>                                                  ^~~~~~~
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: *** <span class="token punctuation">[</span>objs/Makefile:2108：objs/addon/src/ngx_http_lua_headers_in.o<span class="token punctuation">]</span> 错误 <span class="token number">1</span>
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: 离开目录“/opt/nginx-1.24.0/nginx-1.24.0”
+make: *** <span class="token punctuation">[</span>Makefile:10：build<span class="token punctuation">]</span> 错误 <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>lua 模块版本不兼容，更改合适的lua模块版本</strong></p>
+<p><img src="http://img.lunrry.top/img/202312140929956.png" alt="image"></p>
+<p><img src="http://img.lunrry.top/img/202312140929302.png" alt="image"></p>
+<p><a href="https://github.com/nginx/nginx/commit/3aef1d693f3cc431563a7e6a6aba6a34e5290f03">nginx&#x2F;nginx@3aef1d6</a>中将<code>cookies</code>字段重命名为<code>cookie</code></p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>一个可行的<a href="https://github.com/openresty/headers-more-nginx-module/commit/57ef661154ba32d0b072d640038754b348808e2e">修复</a>：</p>
+<p>修改<code>/home/app/nginx/lua-nginx-module-0.10.15/src/ngx_http_lua_headers_in.c</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">@@ -158,9 +158,15 @@ static ngx_http_headers_more_set_header_t ngx_http_headers_more_set_handlers<span class="token punctuation">[</span><span class="token punctuation">]</span>
+			ngx_http_set_builtin_header <span class="token punctuation">&#125;</span>,
+<span class="token comment">#endif</span>
+
++ <span class="token comment">#if defined(nginx_version) &amp;&amp; nginx_version >= 1023000</span>
++    <span class="token punctuation">&#123;</span> ngx_string<span class="token punctuation">(</span><span class="token string">"Cookie"</span><span class="token punctuation">)</span>,
++                 offsetof<span class="token punctuation">(</span>ngx_http_headers_in_t, cookie<span class="token punctuation">)</span>,
++                 ngx_http_set_builtin_multi_header <span class="token punctuation">&#125;</span>,
++ <span class="token comment">#else</span>
+    <span class="token punctuation">&#123;</span> ngx_string<span class="token punctuation">(</span><span class="token string">"Cookie"</span><span class="token punctuation">)</span>,
+                 offsetof<span class="token punctuation">(</span>ngx_http_headers_in_t, cookies<span class="token punctuation">)</span>,
+                 ngx_http_set_builtin_multi_header <span class="token punctuation">&#125;</span>,
++ <span class="token comment">#endif</span>
+
+    <span class="token punctuation">&#123;</span> ngx_null_string, <span class="token number">0</span>, ngx_http_set_header <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="编译fastdfs-nginx-module-1-22报错"><a href="#编译fastdfs-nginx-module-1-22报错" class="headerlink" title="编译fastdfs-nginx-module-1.22报错"></a>编译fastdfs-nginx-module-1.22报错</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">In <span class="token function">file</span> included from /home/app/nginx/fastdfs-nginx-module-1.22/src/ngx_http_fastdfs_module.c:6:
+/home/app/nginx/fastdfs-nginx-module-1.22/src/common.c: In <span class="token keyword">function</span> ‘fdfs_http_request_handler’:
+/home/app/nginx/fastdfs-nginx-module-1.22/src/common.c:903:42: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size between <span class="token number">111</span> and <span class="token number">127</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
+  <span class="token number">902</span> <span class="token operator">|</span>   file_id_without_group <span class="token operator">=</span> uri + <span class="token number">1</span><span class="token punctuation">;</span> //skip /
+      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
+      <span class="token operator">|</span>                                          ^~
+/home/app/nginx/fastdfs-nginx-module-1.22/src/common.c:903:3: note: ‘snprintf’ output between <span class="token number">2</span> and <span class="token number">528</span> bytes into a destination of size <span class="token number">128</span>
+  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
+      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  <span class="token number">904</span> <span class="token operator">|</span>    my_group_name, file_id_without_group<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/app/nginx/fastdfs-nginx-module-1.22/src/common.c:857:39: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size <span class="token number">128</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
+  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+/home/app/nginx/fastdfs-nginx-module-1.22/src/common.c:857:3: note: ‘snprintf’ output between <span class="token number">1</span> and <span class="token number">511</span> bytes into a destination of size <span class="token number">128</span>
+  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: *** <span class="token punctuation">[</span>objs/Makefile:2408：objs/addon/src/ngx_http_fastdfs_module.o<span class="token punctuation">]</span> 错误 <span class="token number">1</span>
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: *** 正在等待未完成的任务<span class="token punctuation">..</span><span class="token punctuation">..</span>
+make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: 离开目录“/opt/nginx-1.23.4/nginx-1.22.1”
+make: *** <span class="token punctuation">[</span>Makefile:10：build<span class="token punctuation">]</span> 错误 <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>int snprintf(char *str, size_t size, const char *format, …) 设将可变参数(…)按照 format 格式化成字符串，并将字符串复制到 str 中，size 为要写入的字符的最大数目，超过 size 会被截断</p>
+</blockquote>
+<h4 id="解决方案：-1"><a href="#解决方案：-1" class="headerlink" title="解决方案："></a>解决方案：</h4><ul>
+<li>使用编译器特定的语法来禁用警告<br>修改 fastdfs-nginx-module 中的 common.c 文件， 加入两行代码，禁用格式截断告警</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#pragma GCC diagnostic push</span>
+<span class="token comment">#pragma GCC diagnostic ignored "-Wformat-truncation"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="http://img.lunrry.top/img/202312140952360.png" alt="image-1662112250479"></p>
+<h4 id="备份文件后替换nginx并重启"><a href="#备份文件后替换nginx并重启" class="headerlink" title="备份文件后替换nginx并重启"></a>备份文件后替换nginx并重启</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost sbin<span class="token punctuation">]</span><span class="token comment"># nginx -V</span>
+nginx version: nginx/1.23.4
+built by gcc <span class="token number">10.2</span>.1 <span class="token number">20210130</span> <span class="token punctuation">(</span>Red Hat <span class="token number">10.2</span>.1-11<span class="token punctuation">)</span> <span class="token punctuation">(</span>GCC<span class="token punctuation">)</span> 
+built with OpenSSL <span class="token number">1.1</span>.1k  <span class="token number">25</span> Mar <span class="token number">2021</span>
+TLS SNI support enabled
+configure arguments: <span class="token parameter variable">--prefix</span><span class="token operator">=</span>/etc/nginx --sbin-path<span class="token operator">=</span>/usr/sbin/nginx --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --error-log-path<span class="token operator">=</span>/data/log/nginx/error.log --http-log-path<span class="token operator">=</span>/var/log/nginx/access.log --pid-path<span class="token operator">=</span>/data/run/nginx.pid --lock-path<span class="token operator">=</span>/var/run/nginx.lock --http-client-body-temp-path<span class="token operator">=</span>/var/cache/nginx/client_temp --http-proxy-temp-path<span class="token operator">=</span>/var/cache/nginx/proxy_temp --http-fastcgi-temp-path<span class="token operator">=</span>/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path<span class="token operator">=</span>/var/cache/nginx/uwsgi_temp --http-scgi-temp-path<span class="token operator">=</span>/var/cache/nginx/scgi_temp <span class="token parameter variable">--user</span><span class="token operator">=</span>nginx <span class="token parameter variable">--group</span><span class="token operator">=</span>nginx --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_geoip_module<span class="token operator">=</span>dynamic --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module<span class="token operator">=</span>dynamic --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --with-openssl<span class="token operator">=</span>/home/app/nginx/openssl-OpenSSL_1_1_1k --add-module<span class="token operator">=</span>/home/app/nginx/lua-nginx-module-0.10.15 --add-module<span class="token operator">=</span>/home/app/nginx/ngx_devel_kit-0.3.1rc1 --add-module<span class="token operator">=</span>/home/app/nginx/nginx-http-concat-master --add-module<span class="token operator">=</span>/home/app/nginx/fastdfs-nginx-module-1.22/src<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-I</span> https://xxx.xxx.xxx
+HTTP/1.1 <span class="token number">200</span> OK
+Server: nginx/1.23.4
+Date: Thu, <span class="token number">14</span> Dec <span class="token number">2023</span> 02:40:53 GMT
+Content-Type: text/html
+Content-Length: <span class="token number">42101</span>
+Last-Modified: Wed, <span class="token number">29</span> Nov <span class="token number">2023</span> <span class="token number">22</span>:04:04 GMT
+Connection: keep-alive
+Vary: Accept-Encoding
+ETag: <span class="token string">"65xxx54-a475"</span>
+Expires: Thu, <span class="token number">14</span> Dec <span class="token number">2023</span> 02:40:52 GMT
+Cache-Control: no-cache
+Accept-Ranges: bytes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如上，已升级到nginx&#x2F;1.23.4，解决CVE-2022-41741、2安全漏洞。</p>
+]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql8常用命令</title>
+    <url>/posts/d032354a/</url>
+    <content><![CDATA[<h2 id="创建用户并授权"><a href="#创建用户并授权" class="headerlink" title="创建用户并授权"></a>创建用户并授权</h2><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#显示创建用户的验证条件
+SHOW VARIABLES LIKE &#39;validate_password%&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#创建用户
+CREATE USER &#39;用户名&#39;@&#39;%或者IP&#39; IDENTIFIED BY &#39;密码&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 授权某个用户所有数据库所有权限
+GRANT ALL PRIVILEGES ON *.* TO &quot;用户名&quot;@&quot;IP&#x2F;localhost&#x2F;%&quot;
+
+# 授予某个用户所有数据库读权限
+GRANT SELECT ON *.* TO &#39;用户名&#39;@&#39;%或者IP&#39; ;
+
+# 授予某个用户某个数据库写权限
+GRANT INSERT ON &#96;数据库名&#96;.* TO &#39;用户名&#39;@&#39;%或者IP&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>ALL PRIVILEGES:</strong> 所有权限</li>
+<li><strong>INSERT:</strong> 允许用户插入权限</li>
+<li><strong>SELECT:</strong> 允许用户读权限.</li>
+<li><strong>UPDATE:</strong> 允许用户更新权限</li>
+<li><strong>CREATE:</strong> 允许用户创建表和数据库权限</li>
+<li><strong>DELETE:</strong> 允许用户删除表中的行数据权限</li>
+<li><strong>DROP:</strong> 允许用户删除数据库和表权限</li>
+</ul>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 刷新权限
+flush privileges;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 显示所有权限
+SHOW GRANTS FOR &#39;用户名&#39;@&#39;%或者IP&#39;;
+
+# 删除某个权限
+REVOKE SELECT ON *.* FROM &#39;用户名&#39;@&#39;%或者IP&#39;;
+
+# 删除用户
+DROP USER &#39;用户名&#39;@&#39;%或者IP&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
   </entry>
   <entry>
     <title>solr9.x版本集群部署方案</title>
@@ -3768,191 +3844,93 @@ zkServer.sh status<span aria-hidden="true" class="line-numbers-rows"><span></spa
 ]]></content>
   </entry>
   <entry>
-    <title>使用Dockerfile基于Centos7镜像构建MySQL镜像</title>
-    <url>/posts/fd7d17f0/</url>
-    <content><![CDATA[<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li><code>[root@mysql src]# docker -v Docker version 18.06.1-ce, build e68fc7a</code></li>
-<li><a href="https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.26.tar.gz">mysql-5.6.26.tar.gz</a></li>
-<li><a href="https://cmake.org/files/v3.21/cmake-3.21.1.tar.gz">cmake</a></li>
-</ul>
-<h2 id="编写Dockerfile构建文件"><a href="#编写Dockerfile构建文件" class="headerlink" title="编写Dockerfile构建文件"></a>编写Dockerfile构建文件</h2><p><code>cd /usr/local/src </code>进入安装目录<br><code>vi Dockerfile</code></p>
-<pre class="line-numbers language-none"><code class="language-none">#基础镜像，基于官方centos7构建
-FROM centos:centos7
-#维护者
-MAINTAINER Lunrry
-#安装依赖包
-RUN set -xe &amp;&amp; buildDeps&#x3D;&quot; gcc gcc-c++ make bison ncurses ncurses-devel openssl openssl-devel perl-Data-Dumper perl perl-devel &quot; &amp;&amp; yum install -y $&#123;buildDeps&#125; &amp;&amp; yum clean all
-#设置环境变量
-ENV mysql&#x3D;mysql-5.6.26 \
-cmake&#x3D;cmake-3.21.1
-#指定容器里面的路径，为后面的RUN、CMD或者ENTERPOINT操作指定目录
-#安装cmake
-WORKDIR &#x2F;usr&#x2F;local&#x2F;src
-COPY $cmake.tar.gz .&#x2F;
-RUN tar zxvf $cmake.tar.gz
-WORKDIR &#x2F;usr&#x2F;local&#x2F;src&#x2F;$cmake
-RUN .&#x2F;configure &amp;&amp; make &amp;&amp; make install \
-&amp;&amp; rm -rf &#x2F;usr&#x2F;local&#x2F;src&#x2F;$cmake
-#开始编译安装mysql
-#创建mysql运行用户和组
-RUN groupadd mysql &amp;&amp; useradd -g mysql mysql -s &#x2F;bin&#x2F;false \
-#创建mysql安装目录
-&amp;&amp; mkdir -p &#x2F;usr&#x2F;local&#x2F;mysql \
-#创建mysql数据库存放目录及权限
-&amp;&amp; mkdir -p &#x2F;data&#x2F;mysql \
-&amp;&amp; chown -R mysql:mysql &#x2F;data&#x2F;mysql
-#指定容器里面的路径，为后面的RUN、CMD或者ENTERPOINT操作指定目录
-#编译安装mysql
-WORKDIR &#x2F;usr&#x2F;local&#x2F;src
-COPY $mysql.tar.gz .&#x2F;
-RUN tar zxvf $mysql.tar.gz
-WORKDIR &#x2F;usr&#x2F;local&#x2F;src&#x2F;$mysql
-RUN cmake . -DCMAKE_INSTALL_PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql -DMYSQL_DATADIR&#x3D;&#x2F;data&#x2F;mysql -DSYSCONFDIR&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc &amp;&amp; make &amp;&amp; make install &amp;&amp; rm -rf &#x2F;usr&#x2F;local&#x2F;src&#x2F;$mysql
-#配置mysql
-RUN rm -rf &#x2F;etc&#x2F;my.cnf &amp;&amp; mkdir -p &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc&#x2F; \
-&amp;&amp; &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;scripts&#x2F;mysql_install_db --user&#x3D;mysql --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql --datadir&#x3D;&#x2F;data&#x2F;mysql \
-&amp;&amp; cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;my.cnf &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc&#x2F;my.cnf \
-&amp;&amp; ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;lib&#x2F;mysql &#x2F;usr&#x2F;lib&#x2F;mysql \
-&amp;&amp; ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;include&#x2F;mysql &#x2F;usr&#x2F;include&#x2F;mysql \
-&amp;&amp; mkdir &#x2F;var&#x2F;lib&#x2F;mysql \
-&amp;&amp; ln -s &#x2F;tmp&#x2F;mysql.sock &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock \
-&amp;&amp; echo &#39;export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#39; &gt;&gt; &#x2F;etc&#x2F;profile \
-&amp;&amp; source &#x2F;etc&#x2F;profile \
-&amp;&amp; echo &#39;source &#x2F;etc&#x2F;profile&#39;&gt;&gt; &#x2F;root&#x2F;.bashrc
-#切换到根目录
-WORKDIR &#x2F;root
-#设置mysql运行端口
-EXPOSE 3306
-#设置mysql前台方式运行
-CMD [&quot;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysqld_safe&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><p><code>docker build --no-cache -t centos:1.3 .</code></p>
-<ul>
-<li>使用<code>--no-cache</code>参数减小磁盘占用</li>
-</ul>
-<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><pre class="line-numbers language-none"><code class="language-none">#查看镜像
-[root@mysql src]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              1.3                 d35b80724065        3 hours ago         1.89GB
-centos              1.0                 31945d0e8787        4 hours ago         5GB
-centos              centos7             eeb6ee3f44bd        15 months ago       204MB
-#运行容器
-[root@mysql src]# docker run -itd --name mysql centos:1.3
-5d649e8627442ec0b4935c0b7dca81f3816214a8dc5e31cb9be82bf482235e78
-[root@mysql src]# docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-5d649e862744        centos:1.3          &quot;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bi…&quot;   6 seconds ago       Up 4 seconds        3306&#x2F;tcp            mysql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><code>-itd</code><blockquote>
-<p>-i: 以交互模式运行容器，通常与 -t 同时使用；<br>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>-d: 后台运行容器，并返回容器ID。</p>
+    <title>一键化脚本</title>
+    <url>/posts/dab9ddeb/</url>
+    <content><![CDATA[<h2 id="脚本使用"><a href="#脚本使用" class="headerlink" title="脚本使用"></a>脚本使用</h2><p><code>wget http://www.lunrry.top:99/p/COnZHs5NgS/install_all.sh &amp;&amp; chmod +x install_all.sh &amp;&amp; ./install_all.sh</code></p>
+<hr>
+<p>请选择要执行的命令：</p>
+<ol>
+<li>centos初始化配置</li>
+<li>安装fdfs-6.06（一般位于DB服务器）</li>
+<li>安装nginx-1.22.0（web服务器）</li>
+<li>安装nginx+fdfs，两者位于同一台机器</li>
+<li>安装nano-7.2编辑器</li>
+<li>安装docker</li>
+<li>安装k8s（自动安装适配版本docker）</li>
+<li>安装zabbix-5.0-LTS</li>
+</ol>
+<hr>
+<h2 id="Readme"><a href="#Readme" class="headerlink" title="Readme"></a>Readme</h2><ol>
+<li>init.sh</li>
+</ol>
+<blockquote>
+<p>实现yum换源、安装基本工具、同步时间服务器、设定最大进程数、设置打开文件描述符的数量等linux基础优化</p>
 </blockquote>
-</li>
-<li><code>--name</code>为容器指定名称</li>
+<ol start="2">
+<li>install_fdfs.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
+<p>– 后面接参数：</p>
+<ul>
+<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs</li>
 </ul>
-<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><pre class="line-numbers language-none"><code class="language-none">[root@mysql src]# docker exec -it mysql &#x2F;bin&#x2F;bash
-[root@5d649e862744 ~]# mysql -uroot -p
-Enter password: 
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 1
-Server version: 5.6.26 Source distribution
-
-Copyright (c) 2000, 2015, Oracle and&#x2F;or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and&#x2F;or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
-
-mysql&gt; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>修改数据库密码</p>
-<pre class="line-numbers language-none"><code class="language-none">mysql&gt; UPDATE mysql.user SET Password &#x3D; PASSWORD(&#39;newpwd&#39;) WHERE User &#x3D; &#39;root&#39;;
-Query OK, 4 rows affected (0.00 sec)
-Rows matched: 4  Changed: 4  Warnings: 0
-
-mysql&gt; FLUSH PRIVILEGES;
-Query OK, 0 rows affected (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>开启远程连接</p>
-<pre class="line-numbers language-none"><code class="language-none">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;password&#39; WITH GRANT OPTION;
-Query OK, 0 rows affected (0.00 sec)
-
-mysql&gt; FLUSH PRIVILEGES;
-Query OK, 0 rows affected (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>查看是否允许远程连接</p>
-<pre class="line-numbers language-none"><code class="language-none">mysql&gt; select user,host from mysql.user;
-+------+--------------+
-| user | host         |
-+------+--------------+
-| root | %            |
-| root | 127.0.0.1    |
-| root | ::1          |
-|      | f8ab6d4854ea |
-| root | f8ab6d4854ea |
-|      | localhost    |
-| root | localhost    |
-+------+--------------+
-7 rows in set (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>此时<code>root</code>的访问权限为<code>%</code>任意地址都可连接</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/115845957">缩小镜像体积</a><br><a href="https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html#cmake-option-reference">MySQL 源配置选项参考（CMake）</a><br><a href="https://blog.csdn.net/qq_40757240/article/details/118068317">MySQL修改root用户密码</a><br><a href="https://www.cnblogs.com/zhongyehai/p/10695334.html">mysql登录报错：ERROR 1045 (28000): Access denied for user ‘root‘@’localhost’ (using password: YES)</a></p>
+<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器,DB服务器上的安装</p>
+</blockquote>
+<ol start="3">
+<li>nginx_install.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/h7RX4agM7k/install_fdfs.sh |bash -s -- /home/data/nginx</code></p>
+<p>– 后面接参数：</p>
+<ul>
+<li>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;nginx</li>
+</ul>
+<p>此脚本会安装nginx-1.22.0，适用于文件服务器和web服务器不在同一台机器，WEB服务器上的安装</p>
+</blockquote>
+<ol start="4">
+<li>install_ngx_fdfs.sh</li>
+</ol>
+<blockquote>
+<p>单独执行：<code>curl http://www.lunrry.top:99/p/2O6ZjaqOvL/install_ngx_fdfs.sh |bash -s -- /home/data/fdfs</code></p>
+<p>– 后面接参数： </p>
+<ul>
+<li><p>install_dir fdfs安装位置，默认为&#x2F;home&#x2F;data&#x2F;fdfs </p>
+</li>
+<li><p>nginx文件位置在&#x2F;home&#x2F;data&#x2F;nginx</p>
+</li>
+</ul>
+<p>此脚本会安装fdfs-6.06以及nginx-1.22.0，适用于文件服务器和web服务器在同一台机器的情况</p>
+</blockquote>
+<ol start="5">
+<li>install.sh</li>
+</ol>
+<blockquote>
+<p> <code>curl http://www.lunrry.top:99/p/cbwpRZoCF8/install.sh | bash</code></p>
+<ul>
+<li>执行代码安装<code>nano-7.2</code>，并设置<code>代码语法高亮以及tab占位4空格</code></li>
+<li>理论linux系统通用</li>
+</ul>
+</blockquote>
+<ol start="6">
+<li>docker_install.sh</li>
+</ol>
+<blockquote>
+<p>自定义安装docker并换源</p>
+</blockquote>
+<ol start="7">
+<li>k8s_install.sh</li>
+</ol>
+<blockquote>
+<p>快速部署指定版本k8s集群,极大程度降低工作量，能在10分钟内完成任意版本的k8s集群部署</p>
+</blockquote>
+<ol start="8">
+<li>zabbix_install.sh</li>
+</ol>
+<blockquote>
+<p>快速安装zabbix-5.0-LTS,同时会安装MariaDB数据库</p>
+</blockquote>
 ]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Linux</tag>
-        <tag>Centos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>nginx编译报错解决办法</title>
-    <url>/posts/f1fcef01/</url>
-    <content><![CDATA[<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>编译安装nginx执行<code>make</code>命令时报错</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:903:42: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size between <span class="token number">111</span> and <span class="token number">127</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
-  <span class="token number">902</span> <span class="token operator">|</span>   file_id_without_group <span class="token operator">=</span> uri + <span class="token number">1</span><span class="token punctuation">;</span> //skip /
-      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
-  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
-      <span class="token operator">|</span>                                          ^~
-/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:903:3: note: ‘snprintf’ output between <span class="token number">2</span> and <span class="token number">528</span> bytes into a destination of size <span class="token number">128</span>
-  <span class="token number">903</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s/%s"</span>, <span class="token punctuation">\</span>
-      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  <span class="token number">904</span> <span class="token operator">|</span>    my_group_name, file_id_without_group<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token operator">|</span>    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:857:39: error: ‘%s’ directive output may be truncated writing up to <span class="token number">510</span> bytes into a region of size <span class="token number">128</span> <span class="token punctuation">[</span>-Werror<span class="token operator">=</span>format-truncation<span class="token operator">=</span><span class="token punctuation">]</span>
-  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token operator">|</span>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-/home/app/fastdfs/fastdfs-nginx-module-1.22/src/common.c:857:3: note: ‘snprintf’ output between <span class="token number">1</span> and <span class="token number">511</span> bytes into a destination of size <span class="token number">128</span>
-  <span class="token number">857</span> <span class="token operator">|</span>   snprintf<span class="token punctuation">(</span>file_id, sizeof<span class="token punctuation">(</span>file_id<span class="token punctuation">)</span>, <span class="token string">"%s"</span>, uri + <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token operator">|</span>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc <span class="token parameter variable">-o</span> objs/ngx_http_image_filter_module.so <span class="token punctuation">\</span>
-objs/src/http/modules/ngx_http_image_filter_module.o <span class="token punctuation">\</span>
-objs/ngx_http_image_filter_module_modules.o <span class="token punctuation">\</span>
-<span class="token parameter variable">-lgd</span> <span class="token punctuation">\</span>
-<span class="token parameter variable">-shared</span>
-cc1: all warnings being treated as errors
-make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: *** <span class="token punctuation">[</span>objs/Makefile:1840：objs/addon/src/ngx_http_fastdfs_module.o<span class="token punctuation">]</span> 错误 <span class="token number">1</span>
-make<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: 离开目录“/home/app/fastdfs/nginx-1.22.0”
-make: *** <span class="token punctuation">[</span>Makefile:10：build<span class="token punctuation">]</span> 错误 <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h2><p>在编译 fastdfs-nginx-module 模块的过程中,common.c文件中的一个printf语句可能会导致字符串截断,从而触发了编译器的警告并以错误退出。</p>
-<h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><p>更换gcc版本，由于我安装的gcc版本为10.2但是fastdfs-nginx-module-1.22模块版本较老，代码的格式字符串与传入参数类型不匹配造成的。</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装centos-release-scl</span>
-yum <span class="token function">install</span> centos-release-scl-rh
-<span class="token comment"># 安装devtoolset</span>
-yum <span class="token function">install</span> devtoolset-7-gcc devtoolset-7-gcc-c++
-<span class="token comment"># 查看已安装的gcc版本</span>
-scl <span class="token parameter variable">-l</span>
-<span class="token comment"># 切换到gcc-7.0</span>
-scl <span class="token builtin class-name">enable</span> devtoolset-7 <span class="token function">bash</span>
-<span class="token comment"># 编译完成后退出当前scl bash环境，恢复成系统bash环境</span>
-<span class="token builtin class-name">exit</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>Nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
   </entry>
   <entry>
     <title>修改Mysql-8.0.30 root密码</title>
@@ -4353,6 +4331,142 @@ org.springframework.dao.InvalidDataAccessApiUsageException: NOAUTH Authenticatio
       <tags>
         <tag>linux</tag>
         <tag>arm64</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Dockerfile基于Centos7镜像构建MySQL镜像</title>
+    <url>/posts/fd7d17f0/</url>
+    <content><![CDATA[<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li><code>[root@mysql src]# docker -v Docker version 18.06.1-ce, build e68fc7a</code></li>
+<li><a href="https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.26.tar.gz">mysql-5.6.26.tar.gz</a></li>
+<li><a href="https://cmake.org/files/v3.21/cmake-3.21.1.tar.gz">cmake</a></li>
+</ul>
+<h2 id="编写Dockerfile构建文件"><a href="#编写Dockerfile构建文件" class="headerlink" title="编写Dockerfile构建文件"></a>编写Dockerfile构建文件</h2><p><code>cd /usr/local/src </code>进入安装目录<br><code>vi Dockerfile</code></p>
+<pre class="line-numbers language-none"><code class="language-none">#基础镜像，基于官方centos7构建
+FROM centos:centos7
+#维护者
+MAINTAINER Lunrry
+#安装依赖包
+RUN set -xe &amp;&amp; buildDeps&#x3D;&quot; gcc gcc-c++ make bison ncurses ncurses-devel openssl openssl-devel perl-Data-Dumper perl perl-devel &quot; &amp;&amp; yum install -y $&#123;buildDeps&#125; &amp;&amp; yum clean all
+#设置环境变量
+ENV mysql&#x3D;mysql-5.6.26 \
+cmake&#x3D;cmake-3.21.1
+#指定容器里面的路径，为后面的RUN、CMD或者ENTERPOINT操作指定目录
+#安装cmake
+WORKDIR &#x2F;usr&#x2F;local&#x2F;src
+COPY $cmake.tar.gz .&#x2F;
+RUN tar zxvf $cmake.tar.gz
+WORKDIR &#x2F;usr&#x2F;local&#x2F;src&#x2F;$cmake
+RUN .&#x2F;configure &amp;&amp; make &amp;&amp; make install \
+&amp;&amp; rm -rf &#x2F;usr&#x2F;local&#x2F;src&#x2F;$cmake
+#开始编译安装mysql
+#创建mysql运行用户和组
+RUN groupadd mysql &amp;&amp; useradd -g mysql mysql -s &#x2F;bin&#x2F;false \
+#创建mysql安装目录
+&amp;&amp; mkdir -p &#x2F;usr&#x2F;local&#x2F;mysql \
+#创建mysql数据库存放目录及权限
+&amp;&amp; mkdir -p &#x2F;data&#x2F;mysql \
+&amp;&amp; chown -R mysql:mysql &#x2F;data&#x2F;mysql
+#指定容器里面的路径，为后面的RUN、CMD或者ENTERPOINT操作指定目录
+#编译安装mysql
+WORKDIR &#x2F;usr&#x2F;local&#x2F;src
+COPY $mysql.tar.gz .&#x2F;
+RUN tar zxvf $mysql.tar.gz
+WORKDIR &#x2F;usr&#x2F;local&#x2F;src&#x2F;$mysql
+RUN cmake . -DCMAKE_INSTALL_PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql -DMYSQL_DATADIR&#x3D;&#x2F;data&#x2F;mysql -DSYSCONFDIR&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc &amp;&amp; make &amp;&amp; make install &amp;&amp; rm -rf &#x2F;usr&#x2F;local&#x2F;src&#x2F;$mysql
+#配置mysql
+RUN rm -rf &#x2F;etc&#x2F;my.cnf &amp;&amp; mkdir -p &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc&#x2F; \
+&amp;&amp; &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;scripts&#x2F;mysql_install_db --user&#x3D;mysql --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql --datadir&#x3D;&#x2F;data&#x2F;mysql \
+&amp;&amp; cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;my.cnf &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;etc&#x2F;my.cnf \
+&amp;&amp; ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;lib&#x2F;mysql &#x2F;usr&#x2F;lib&#x2F;mysql \
+&amp;&amp; ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;include&#x2F;mysql &#x2F;usr&#x2F;include&#x2F;mysql \
+&amp;&amp; mkdir &#x2F;var&#x2F;lib&#x2F;mysql \
+&amp;&amp; ln -s &#x2F;tmp&#x2F;mysql.sock &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql.sock \
+&amp;&amp; echo &#39;export PATH&#x3D;$PATH:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#39; &gt;&gt; &#x2F;etc&#x2F;profile \
+&amp;&amp; source &#x2F;etc&#x2F;profile \
+&amp;&amp; echo &#39;source &#x2F;etc&#x2F;profile&#39;&gt;&gt; &#x2F;root&#x2F;.bashrc
+#切换到根目录
+WORKDIR &#x2F;root
+#设置mysql运行端口
+EXPOSE 3306
+#设置mysql前台方式运行
+CMD [&quot;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysqld_safe&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><p><code>docker build --no-cache -t centos:1.3 .</code></p>
+<ul>
+<li>使用<code>--no-cache</code>参数减小磁盘占用</li>
+</ul>
+<h2 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h2><pre class="line-numbers language-none"><code class="language-none">#查看镜像
+[root@mysql src]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos              1.3                 d35b80724065        3 hours ago         1.89GB
+centos              1.0                 31945d0e8787        4 hours ago         5GB
+centos              centos7             eeb6ee3f44bd        15 months ago       204MB
+#运行容器
+[root@mysql src]# docker run -itd --name mysql centos:1.3
+5d649e8627442ec0b4935c0b7dca81f3816214a8dc5e31cb9be82bf482235e78
+[root@mysql src]# docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+5d649e862744        centos:1.3          &quot;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bi…&quot;   6 seconds ago       Up 4 seconds        3306&#x2F;tcp            mysql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><code>-itd</code><blockquote>
+<p>-i: 以交互模式运行容器，通常与 -t 同时使用；<br>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>-d: 后台运行容器，并返回容器ID。</p>
+</blockquote>
+</li>
+<li><code>--name</code>为容器指定名称</li>
+</ul>
+<h2 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h2><pre class="line-numbers language-none"><code class="language-none">[root@mysql src]# docker exec -it mysql &#x2F;bin&#x2F;bash
+[root@5d649e862744 ~]# mysql -uroot -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.6.26 Source distribution
+
+Copyright (c) 2000, 2015, Oracle and&#x2F;or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and&#x2F;or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+mysql&gt; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>修改数据库密码</p>
+<pre class="line-numbers language-none"><code class="language-none">mysql&gt; UPDATE mysql.user SET Password &#x3D; PASSWORD(&#39;newpwd&#39;) WHERE User &#x3D; &#39;root&#39;;
+Query OK, 4 rows affected (0.00 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>开启远程连接</p>
+<pre class="line-numbers language-none"><code class="language-none">mysql&gt; GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;password&#39; WITH GRANT OPTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>查看是否允许远程连接</p>
+<pre class="line-numbers language-none"><code class="language-none">mysql&gt; select user,host from mysql.user;
++------+--------------+
+| user | host         |
++------+--------------+
+| root | %            |
+| root | 127.0.0.1    |
+| root | ::1          |
+|      | f8ab6d4854ea |
+| root | f8ab6d4854ea |
+|      | localhost    |
+| root | localhost    |
++------+--------------+
+7 rows in set (0.00 sec)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时<code>root</code>的访问权限为<code>%</code>任意地址都可连接</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/115845957">缩小镜像体积</a><br><a href="https://dev.mysql.com/doc/refman/5.7/en/source-configuration-options.html#cmake-option-reference">MySQL 源配置选项参考（CMake）</a><br><a href="https://blog.csdn.net/qq_40757240/article/details/118068317">MySQL修改root用户密码</a><br><a href="https://www.cnblogs.com/zhongyehai/p/10695334.html">mysql登录报错：ERROR 1045 (28000): Access denied for user ‘root‘@’localhost’ (using password: YES)</a></p>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Linux</tag>
+        <tag>Centos</tag>
       </tags>
   </entry>
   <entry>

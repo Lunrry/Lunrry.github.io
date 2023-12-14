@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lunrry.github.io/posts/904b2880/</loc>
+    
+    <lastmod>2023-12-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://lunrry.github.io/posts/580fd437/</loc>
     
     <lastmod>2023-11-17</lastmod>
@@ -11,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://lunrry.github.io/tags/index.html</loc>
+    <loc>https://lunrry.github.io/categories/index.html</loc>
     
     <lastmod>2023-09-25</lastmod>
     
@@ -20,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://lunrry.github.io/categories/index.html</loc>
+    <loc>https://lunrry.github.io/tags/index.html</loc>
     
     <lastmod>2023-09-25</lastmod>
     
@@ -65,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://lunrry.github.io/posts/dab9ddeb/</loc>
+    <loc>https://lunrry.github.io/posts/f1fcef01/</loc>
     
     <lastmod>2023-09-25</lastmod>
     
@@ -83,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://lunrry.github.io/posts/f1fcef01/</loc>
+    <loc>https://lunrry.github.io/posts/dab9ddeb/</loc>
     
     <lastmod>2023-09-25</lastmod>
     
@@ -379,13 +388,6 @@
   </url>
   
   <url>
-    <loc>https://lunrry.github.io/tags/Centos/</loc>
-    <lastmod>2023-12-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://lunrry.github.io/tags/nginx/</loc>
     <lastmod>2023-12-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -394,6 +396,13 @@
   
   <url>
     <loc>https://lunrry.github.io/tags/arm64/</loc>
+    <lastmod>2023-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://lunrry.github.io/tags/Centos/</loc>
     <lastmod>2023-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
